@@ -6,9 +6,9 @@ import Focus from './components/Focus.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './components/Home.jsx'
 import Dashboard from './components/Dashboard.jsx'
-import AllTask from './components/HigherTask.jsx'
 import HigherTask from './components/HigherTask.jsx'
 import MediumTask from './components/MediumTask.jsx'
+import LowerTask from './components/LowerTask.jsx'
 
 
 // ✅ Create router
@@ -40,6 +40,10 @@ const router = createBrowserRouter([
           {
             path:'medium',
             element: <MediumTask/>
+          },
+          {
+            path:'lower',
+            element: <LowerTask/>
           }
           
         ],

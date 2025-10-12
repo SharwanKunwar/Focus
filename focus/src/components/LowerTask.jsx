@@ -1,14 +1,14 @@
 import { Badge, Button, Card, DatePicker, Empty, Form, Input, Modal, Popconfirm, Tag } from 'antd'
 import { useState } from 'react';
 import '@ant-design/v5-patch-for-react-19';
-import { useMediumPlanner } from '../Store/useMediumPlanner';
+import { useLowerPlanner } from '../Store/useLowerPlanner';
 import moment from 'moment';
 
 
-function MediumTask() {
+function LowerTask() {
     const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
-    const{tasks, addTask, deleteTask, setTasks} = useMediumPlanner();
+    const{tasks, addTask, deleteTask, setTasks} = useLowerPlanner();
 
      
 
@@ -31,7 +31,7 @@ function MediumTask() {
     <>
       <div className="flex flex-col w-full h-full rounded-r-2xl relative ">
         <div className="flex justify-end items-center gap-5 p-5 bg-white/30 backdrop-blur-2xl sticky top-0 right-10 pr-10 mastShadow">
-        <div className='w-6/8'><h1 className='text-2xl font-medium text-neutral-600'>Medium Priority Tasks</h1></div>
+        <div className='w-6/8'><h1 className='text-2xl font-medium text-neutral-600'>Lower Priority Tasks</h1></div>
           <DatePicker placeholder='Select Date' size="middle" className='!bg-gradient-to-br !from-indigo-400 !to-cyan-400 !via-orange-300/50 !text-white !font-medium mastShadow'/>
           <Button onClick={()=>setOpen(true)} className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-orange-300/50 !text-white !font-medium !py-1 !px-3 !rounded-md mastShadow"><i className="ri-add-circle-line mr-0"></i>Add Task</Button>
           <Popconfirm  title={ tasks.length === 0 ? "Are you crazy there is nothing to delete": "Do you want to delete all tasks ?" } onConfirm={allDelete} >
@@ -53,7 +53,7 @@ function MediumTask() {
         <div className="grid grid-cols-3 gap-7 p-5 overflow-y-auto">
           
           {tasks.map((item, index) => (
-            <Badge.Ribbon text="Medium" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
+            <Badge.Ribbon text="Lower" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
               <Card hoverable>
                 <Card.Meta
                 title={item.title}
@@ -114,4 +114,4 @@ function MediumTask() {
   )
 }
 
-export default MediumTask
+export default LowerTask
