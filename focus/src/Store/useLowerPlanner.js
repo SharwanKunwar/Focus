@@ -9,10 +9,14 @@ export const useLowerPlanner = create(persist(
         deleteTask: (id)=>set((state)=>({
             tasks: state.tasks.filter((task)=> task.id !== id)
         })),
-        setTasks: (newTasks) =>
-        set(() => ({
-          tasks: newTasks,
+         updateTaskStatus: (id, status) =>
+        set((state) => ({
+          tasks: state.tasks.map((task) =>
+            task.id === id ? { ...task, status } : task
+          ),
         })),
+      setTasks: (newTasks) => set(() => ({ tasks: newTasks })),
+      setStatus:()=>set(()=>({task}))
     
     }),
     {name:"Lower"}
