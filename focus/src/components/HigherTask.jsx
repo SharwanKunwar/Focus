@@ -108,9 +108,9 @@ function HigherTask() {
             initial={{scale:0,opacity:0, filter:"blure(10xp)"}}
             whileInView={{ scale:1,opacity:1}}
             transition={{duration:0.3}}
-            className='bg-white h-[260px] rounded-md flex flex-col justify-between'>
+            className='bg-white h-[265px] rounded-md flex flex-col justify-between'>
               <Badge.Ribbon text="Higher" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
-              <Card hoverable className=' !h-[160px] !rounded-t-md !rounded-b-[5px]'>
+              <Card hoverable className=' !h-[165px] !rounded-t-md !rounded-b-[5px]'>
                 {
                   item.description.length > 200 
                     ? (
