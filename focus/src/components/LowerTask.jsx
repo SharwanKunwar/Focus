@@ -92,7 +92,7 @@ function LowerTask() {
         {/* Tasks Grid */}
         <div className="grid grid-cols-3 gap-7 p-5 overflow-y-auto">
           {tasks.map((item, index) => (
-            <Badge.Ribbon text="Higher" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
+            <Badge.Ribbon text="Lower" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
               <Card hoverable>
                 <Card.Meta title={item.title} description={item.description} />
                 <div className='mt-5 flex flex-col justify-between items-start'>
