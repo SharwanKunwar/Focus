@@ -4,6 +4,7 @@ import '@ant-design/v5-patch-for-react-19';
 import { usePlanner} from "../Store/usePlanner";
 import moment from 'moment';
 import Watch from './Watch';
+import { motion } from "motion/react";
 
 function HigherTask() {
   const [form] = Form.useForm();
@@ -12,6 +13,7 @@ function HigherTask() {
   const [activeTask, setActiveTask] = useState(null);
   const [time, setTime] = useState(0); // in milliseconds
   const [isRunning, setIsRunning] = useState(false);
+  
 
 
   const { tasks, addTask, deleteTask, setTasks, updateTaskStatus } = usePlanner();
@@ -33,18 +35,23 @@ function HigherTask() {
 
   // Format -> HH:MM:SS:MS
   const formatTime = (ms) => {
+    if (typeof ms !== "number" || isNaN(ms)) return "00:00:00:00"; // prevent NaN
+
     const hrs = String(Math.floor(ms / 3600000)).padStart(2, "0");
     const mins = String(Math.floor((ms % 3600000) / 60000)).padStart(2, "0");
     const secs = String(Math.floor((ms % 60000) / 1000)).padStart(2, "0");
     const millis = String(Math.floor((ms % 1000) / 10)).padStart(2, "0"); // two-digit ms
+
     return `${hrs}:${mins}:${secs}:${millis}`;
   };
+
 
   // Create Task
   const createTask = (value) => {
     value.status = "Pending";
     value.id = Date.now();
     value.createdAt = new Date().toISOString();
+    value.taskCompletedAt = formatTime(time);
     addTask(value);
     handleClose();
   };
@@ -94,13 +101,33 @@ function HigherTask() {
           </div>
         )}
 
-        {/* Tasks Grid */}
+        {/* task card work here -------------------------------------------- Tasks Grid */}
         <div className="grid grid-cols-3 gap-7 p-5 overflow-y-auto">
           {tasks.map((item, index) => (
-            <Badge.Ribbon text="Higher" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
-              <Card hoverable>
-                <Card.Meta title={item.title} description={item.description} />
-                <div className='mt-5 flex flex-col justify-between items-start'>
+            <div className='bg-white h-[300px] rounded-md flex flex-col justify-between'>
+              <Badge.Ribbon text="Higher" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
+              <Card hoverable className=' !h-[200px] !rounded-t-md !rounded-b-[5px]'>
+                {
+                  item.description.length > 300 
+                    ? (
+                        <Card.Meta 
+                          title={item.title} 
+                          description={item.description.slice(0, 300) + '...'} 
+                        />
+                      )
+                    : (
+                        <Card.Meta 
+                          title={item.title} 
+                          description={item.description} 
+                        />
+                      )
+                }                
+              </Card>
+            </Badge.Ribbon>
+
+           {/* status / delete / date and time / start task  */}
+            <div className=' h-[110px] px-3'>
+              <div className='pt-3 mb-2 flex flex-col justify-between items-start'>
                   <div className='flex w-full justify-between'>
                     <div className='flex gap-2'>
                       <Tag className='capitalize mastShadow'>{item.status}</Tag>
@@ -108,13 +135,13 @@ function HigherTask() {
                     </div>
                     <div>
                       <label className='text-neutral-400 text-[11px]'>{moment().format('DD MMM YYYY, h:mm a')}</label>
-                    </div>
+                    </div> 
                   </div>
                 </div>
 
                 {/* Start Task Button */}
-                {item.status !== "Completed" && (
-                  <div className='mt-5'>
+                {item.status !== "Completed" ? (
+                  <div className='mt-4 flex justify-center items-center'>
                     <Button
                       onClick={() => {
                         setActiveTask(item);
@@ -123,15 +150,20 @@ function HigherTask() {
                         updateTaskStatus(item.id, "inProgress");
                         item.status = "InProgress"
                       }}
-                      size="small"
-                      className="mastShadow !bg-gradient-to-br from-indigo-400 via-cyan-400 to-purple-400 !text-white !font-medium !px-32 rounded-md hover:opacity-90 transition duration-300 border-none shadow-md"
+                      size="medium"
+                      className="mastShadow !bg-gradient-to-br from-indigo-400 via-cyan-400 to-purple-400 !hover:bg-gradient-to-br !hover:from-indigo-400 !hover:via-cyan-400 !hover:to-purple-400 !text-white !font-medium w-[100%]  rounded-md hover:opacity-90 transition duration-300 border-none shadow-md"
                     >
                       Start Task
                     </Button>
                   </div>
+                ):(
+                  <div className='bg-gradient-to-br from-indigo-400 to-orange-400 text-[16px] text-white font-medium rounded-md h-[40%] mt-3 mastShadow flex justify-center items-center'>
+                    <h1>You completed task in {formatTime(item.taskCompletedAt)} good job.</h1>
+                  </div>
                 )}
-              </Card>
-            </Badge.Ribbon>
+
+            </div>
+            </div>
           ))}
         </div>
 
@@ -182,15 +214,22 @@ function HigherTask() {
                       <Button
                         className="!px-20 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !backdrop-blur-2xl !font-medium !text-[16px]"
                         onClick={() => {
-                          updateTaskStatus(activeTask.id, "Completed");
-                          setActiveTask(prev => prev ? { ...prev, status: "Completed" } : prev);
+                          const completedAt = time; // the tracked time when task completes
+
+                          updateTaskStatus(activeTask.id, "Completed", completedAt); // pass the time
+
+                          setActiveTask(prev =>
+                            prev ? { ...prev, status: "Completed", taskCompletedAt: completedAt } : prev
+                          );
+
                           setIsRunning(false);
-                          setTime(0);
                           setStart(false);
+                          setTime(0);
                         }}
                       >
                         Work Done
                       </Button>
+
                     </div>
                   </Card>
                 </div>

@@ -1,9 +1,9 @@
-"use client";
 
 import { motion } from "motion/react";
 import React, { useState, useEffect } from "react";
 import { Background } from "./Background";
 import { Link } from 'react-router-dom' // ✅ not react-router
+import { Badge, Button, Card, DatePicker, Empty, Form, Input, Modal, Popconfirm, Tag } from 'antd';
 
 
 export function Setbackground() {
@@ -37,7 +37,8 @@ export function Setbackground() {
             ease: "easeInOut",
         }}
         className="relative flex flex-col w-screen h-screen gap-4 items-center justify-center px-4">
-       <div className="bg-white rounded-md backdrop-blur-2xl w-6/12 h-[400px] flex flex-col justify-center items-center">
+          <Card hoverable>
+       <div className="rounded-md backdrop-blur-2xl w-full h-[400px] flex flex-col justify-center items-center">
         <div className="w-[750px] h-[350px] flex justify-center items-center relative">
             <img src="/quoteBox3.png" alt="img" width={550} height={550} className=" object-center " />
             <h1 className="absolute w-[180px] h-[50px] top-10 bg-white text-neutral-400 font-medium flex justify-center items-center left-48 text-[12px]">{quote}</h1>
@@ -50,8 +51,9 @@ export function Setbackground() {
             <button>Linkdin</button>
         </div>
        </div>
+       </Card>
        <div className=" rounded-md w-6/12 h-[100px] flex justify-center items-start ">
-      <Link to="/Focus" className="w-[400px] flex justify-center items-center "> <button className="bg-gradient-to-br mt-3 from-indigo-300 to-cyan-200 via-indigo-400 hover:bg-gradient-to-bl hover:from-cyan-300 hover:to-indigo-500 hover:via-cyan-400 font-medium text-white w-[50%] h-[40px] text-center rounded-md">Get started</button></Link>
+      <Link to="/Focus" className="w-[400px] flex justify-center items-center "> <Button className="!bg-gradient-to-br mt-3 !from-indigo-300 !to-cyan-200 !via-orange-400 !hover:bg-gradient-to-bl !hover:font-bold !hover:text-white !hover:from-cyan-300 !hover:to-indigo-500 !hover:via-cyan-400 !font-medium !text-[18px] !font-mono !w-[200px] !h-[40px]">Get started</Button></Link>
        </div>
       </motion.div>
     </Background>

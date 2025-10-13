@@ -99,7 +99,7 @@ const weeklyData = [
         <select
           value={selectedYear}
           onChange={(e) => setSelectedYear(Number(e.target.value))}
-          className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border border-gray-300 rounded-md p-2 focus:outline-none px-10 focus:ring-2 focus:ring-blue-500"
         >
           {[2025, 2024, 2023, 2022, 2021].map((year) => (
             <option key={year} value={year}>

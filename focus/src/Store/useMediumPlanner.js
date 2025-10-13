@@ -1,23 +1,38 @@
-import {create} from 'zustand'
-import {persist} from 'zustand/middleware'
-export const useMediumPlanner = create(persist(
-    (set)=>({
-        tasks:[],
-        addTask: (payload) => set((pastData)=>({
-            tasks: [...pastData.tasks, payload]
+// src/Store/usePlanner.js
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+export const useMediumPlanner = create(
+  persist(
+    (set) => ({
+      tasks: [],
+
+      // ➕ Add new task
+      addTask: (payload) =>
+        set((state) => ({
+          tasks: [...state.tasks, { ...payload, completed: false }],
         })),
-        deleteTask: (id)=>set((state)=>({
-            tasks: state.tasks.filter((task)=> task.id !== id)
+
+      // ❌ Delete task
+      deleteTask: (id) =>
+        set((state) => ({
+          tasks: state.tasks.filter((task) => task.id !== id),
         })),
-         updateTaskStatus: (id, status) =>
+
+      // ✅ Update task status & optionally store completion time
+      updateTaskStatus: (id, status, completedAt = null) =>
         set((state) => ({
           tasks: state.tasks.map((task) =>
-            task.id === id ? { ...task, status } : task
+            task.id === id
+              ? { ...task, status, taskCompletedAt: completedAt ?? task.taskCompletedAt }
+              : task
           ),
         })),
+
+      // Replace all tasks
       setTasks: (newTasks) => set(() => ({ tasks: newTasks })),
-      setStatus:()=>set(()=>({task}))
-    
+
     }),
-    {name:"Medium"}
-))
+    { name: "Medium" }
+  )
+);
