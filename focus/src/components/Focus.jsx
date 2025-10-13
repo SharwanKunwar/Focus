@@ -36,11 +36,11 @@ function Focus() {
           <div className=" w-full h-[90%] flex flex-col items-center pt-5 gap-3">
             <div className='w-full h-full flex flex-col items-center gap-3'>
               <Link to="dashboard" className='w-full flex justify-center items-center'>
-            <button className="mastShadow bg-white text-neutral-400 font-medium w-[90%] h-[40px] rounded-md"><i className="ri-dashboard-line mr-1"></i> Progress Board </button>
+            <button className="mastShadow !bg-gradient-to-bl from-indigo-400 via-pink-300 to-indigo-400 !hover:bg-gradient-to-br !hover:from-indigo-400 !hover:via-cyan-400 !hover:to-purple-400 text-[18px] w-[90%] h-[40px] rounded-md"><i className="ri-dashboard-line mr-1"></i> Progress Board </button>
             </Link>
             
             
-            <Select placeholder="View All Task" size="large" className="w-[90%] text-center font-medium !border-none !outline-none mastShadow !rounded-lg" onChange={(value) => navigate(value)}>
+            <Select placeholder="View All Task" size="large" className="w-[90%] text-center font-medium !border-none !outline-none mastShadow !rounded-lg " onChange={(value) => navigate(value)}>
               <Select.Option value="higher">Higher Priority Task</Select.Option>
               <Select.Option value="medium">Medium Priority Task</Select.Option>
               <Select.Option value="lower">Lower Priority Task</Select.Option>

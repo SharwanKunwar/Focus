@@ -81,11 +81,11 @@ function HigherTask() {
             <h1 className='text-2xl font-medium text-neutral-600'>Higher Priority Tasks</h1>
           </div>
           <DatePicker placeholder='Select Date' size="middle" className='!bg-gradient-to-br !from-indigo-400 !to-cyan-400 !via-orange-300/50 !text-white !font-medium mastShadow'/>
-          <Button onClick={() => setOpen(true)} className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-orange-300/50 !text-white !font-medium !py-1 !px-3 !rounded-md mastShadow">
+          <Button onClick={() => setOpen(true)} className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-indigo-300 !text-white !font-medium !py-1 !px-3 !rounded-md mastShadow">
             <i className="ri-add-circle-line mr-0"></i>Add Task
           </Button>
           <Popconfirm title={ tasks.length === 0 ? "Nothing to delete!" : "Do you want to delete all tasks?" } onConfirm={allDelete}>
-            <Button className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-orange-300/50 !text-white !font-medium !py-1 !px-5 !rounded-md mastShadow">
+            <Button className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-indigo-300 !text-white !font-medium !py-1 !px-5 !rounded-md mastShadow">
               <i className="ri-delete-bin-2-line mr-0"></i>Delete All Task
             </Button>
           </Popconfirm>
@@ -130,7 +130,21 @@ function HigherTask() {
               <div className='pt-3 mb-2 flex flex-col justify-between items-start'>
                   <div className='flex w-full justify-between'>
                     <div className='flex gap-2'>
-                      <Tag className='capitalize mastShadow'>{item.status}</Tag>
+                      {
+                        item.status === "Pending" && (
+                          <Tag className='capitalize mastShadow !bg-gradient-to-br from-indigo-400 to-pink-400 via-white font-medium'>{item.status}</Tag>
+                        )
+                      }
+                      {
+                        item.status === "InProgress" && (
+                          <Tag className='capitalize mastShadow !bg-gradient-to-bl from-indigo-400 to-cyan-400 via-sky-300 font-medium'>{item.status}</Tag>
+                        )
+                      }
+                      {
+                        item.status === "Completed" && (
+                          <Tag className='capitalize mastShadow !bg-gradient-to-bl from-green-500 to-green-400 via-pink-200 font-medium'>{item.status}</Tag>
+                        )
+                      }
                       <Tag onClick={() => deleteTask(item.id)} className='!bg-rose-500 !border-rose-500 !text-white mastShadow'>Delete</Tag>
                     </div>
                     <div>
@@ -147,11 +161,11 @@ function HigherTask() {
                         setActiveTask(item);
                         setStart(true);
                         setIsRunning(true);
-                        updateTaskStatus(item.id, "inProgress");
+                        updateTaskStatus(item.id, "InProgress");
                         item.status = "InProgress"
                       }}
                       size="medium"
-                      className="mastShadow !bg-gradient-to-br from-indigo-400 via-cyan-400 to-purple-400 !hover:bg-gradient-to-br !hover:from-indigo-400 !hover:via-cyan-400 !hover:to-purple-400 !text-white !font-medium w-[100%]  rounded-md hover:opacity-90 transition duration-300 border-none shadow-md"
+                      className="mastShadow !bg-gradient-to-bl from-indigo-400 via-pink-300 to-indigo-400 !hover:bg-gradient-to-br !hover:from-indigo-400 !hover:via-cyan-400 !hover:to-purple-400 !text-white !font-medium w-[100%]  rounded-md hover:opacity-90 transition duration-300 border-none shadow-md"
                     >
                       Start Task
                     </Button>
