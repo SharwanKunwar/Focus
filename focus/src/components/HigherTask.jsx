@@ -104,15 +104,19 @@ function HigherTask() {
         {/* task card work here -------------------------------------------- Tasks Grid */}
         <div className="grid grid-cols-3 gap-7 p-5 overflow-y-auto">
           {tasks.map((item, index) => (
-            <div className='bg-white h-[300px] rounded-md flex flex-col justify-between'>
+            <motion.div 
+            initial={{scale:0,opacity:0, filter:"blure(10xp)"}}
+            whileInView={{ scale:1,opacity:1}}
+            transition={{duration:0.3}}
+            className='bg-white h-[260px] rounded-md flex flex-col justify-between'>
               <Badge.Ribbon text="Higher" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
-              <Card hoverable className=' !h-[200px] !rounded-t-md !rounded-b-[5px]'>
+              <Card hoverable className=' !h-[160px] !rounded-t-md !rounded-b-[5px]'>
                 {
-                  item.description.length > 250 
+                  item.description.length > 200 
                     ? (
                         <Card.Meta 
                           title={item.title} 
-                          description={item.description.slice(0, 250) + ' . . . '} 
+                          description={item.description.slice(0, 200) + ' . . . '} 
                         />
                       )
                     : (
@@ -171,13 +175,13 @@ function HigherTask() {
                     </Button>
                   </div>
                 ):(
-                  <div className='bg-gradient-to-br from-indigo-400 to-orange-400 text-[16px] text-white font-medium rounded-md h-[40%] mt-3 mastShadow flex justify-center items-center'>
+                  <div className='bg-gradient-to-bl from-indigo-400 via-pink-300 to-indigo-400 text-[15px] text-white font-medium rounded-md h-[32%] mt-4 mastShadow flex justify-center items-center'>
                     <h1>You completed task in {formatTime(item.taskCompletedAt)} good job.</h1>
                   </div>
                 )}
 
             </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
@@ -209,11 +213,15 @@ function HigherTask() {
           closable={true}
         >
           {activeTask && (
-            <div className="w-full h-full flex items-center justify-center gap-3 ">
+            <div className="w-full h-full flex items-center justify-center gap-2">
               {/* Left Panel */}
               <div className=' w-6/12 h-full'>
               {/* watch code  */}
-              <div className=' h-[50%] w-full flex'>
+              <motion.div
+              initial={{filter:"blur(5px)"}}
+              whileInView={{filter:"blur(0px)"}}
+              transition={{delay:0.3, duration:0.3}}
+               className=' h-[50%] w-full flex '>
                  <div className='w-6/12 h-6/6 flex justify-center items-center '>
                   <Watch />
                 </div>
@@ -233,15 +241,19 @@ function HigherTask() {
                 </div>
               </div>
                 
-              </div>
+              </motion.div>
 
               {/* take notes code  */}
-              <div className='pt-3 mt-5 w-full h-[290px] pr-2 bg-gradient-to-br from-indigo-400 to-green-500 via-pink-400 rounded-md p-2'>
+              <motion.div
+              initial={{filter:"blur(5px)"}}
+              whileInView={{filter:"blur(0px)"}}
+              transition={{delay:0.2, duration:0.3}}
+              className='pt-3 mt-5 w-full h-[290px] pr-2 bg-gradient-to-br from-indigo-400 to-green-500 via-pink-400 rounded-md p-2'>
                 <h1 className='text-2xl text-white font-medium mb-3 pl-2'>Write anything </h1>
                   <Form.Item name="description" rules={[{ required: true }]}>
                     <Input.TextArea placeholder='You can use this field for remember points or make notes' rows={8} className='mastShadow backdrop-blur-2xl opacity-60 font-medium !text-[17px]'/>
                   </Form.Item>
-                </div>
+                </motion.div>
 
               </div>
              
@@ -249,7 +261,11 @@ function HigherTask() {
 
               {/* Right Panel - Timer */}
               <div className=' w-6/12 h-full '>
-                <div className='w-full h-6/12 pr-8 mt-5'>
+                <motion.div
+              initial={{filter:"blur(5px)"}}
+              whileInView={{filter:"blur(0px)"}}
+              transition={{delay:0.1, duration:0.3}}
+                className='w-full h-6/12 pr-8 mt-5'>
                   <Card hoverable className='mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !font-medium !text-[16px]'>
                     <h1 className='text-2xl capitalize'>{activeTask.title}</h1>
                     <h3 className='mb-3 text-neutral-200'>{new Date(activeTask.createdAt).toLocaleString()}</h3>
@@ -280,7 +296,7 @@ function HigherTask() {
 
                     </div>
                   </Card>
-                </div>
+                </motion.div>
               </div>
 
         

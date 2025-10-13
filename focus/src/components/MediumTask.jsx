@@ -104,15 +104,19 @@ function MediumTask() {
         {/* task card work here -------------------------------------------- Tasks Grid */}
         <div className="grid grid-cols-3 gap-7 p-5 overflow-y-auto">
           {tasks.map((item, index) => (
-            <div className='bg-white h-[300px] rounded-md flex flex-col justify-between'>
+            <motion.div 
+            initial={{scale:0,opacity:0, filter:"blure(10xp)"}}
+            whileInView={{ scale:1,opacity:1}}
+            transition={{duration:0.3}}
+            className='bg-white h-[260px] rounded-md flex flex-col justify-between'>
               <Badge.Ribbon text="Medium" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
-              <Card hoverable className=' !h-[200px] !rounded-t-md !rounded-b-[5px]'>
+              <Card hoverable className=' !h-[160px] !rounded-t-md !rounded-b-[5px]'>
                 {
-                  item.description.length > 300 
+                  item.description.length > 200 
                     ? (
                         <Card.Meta 
                           title={item.title} 
-                          description={item.description.slice(0, 300) + '...'} 
+                          description={item.description.slice(0, 200) + '...'} 
                         />
                       )
                     : (
@@ -171,13 +175,13 @@ function MediumTask() {
                     </Button>
                   </div>
                 ):(
-                  <div className='bg-gradient-to-br from-indigo-400 to-orange-400 text-[16px] text-white font-medium rounded-md h-[40%] mt-3 mastShadow flex justify-center items-center'>
+                  <div className='bg-gradient-to-bl from-indigo-400 via-pink-300 to-indigo-400 text-[15px] text-white font-medium rounded-md h-[32%] mt-4 mastShadow flex justify-center items-center'>
                     <h1>You completed task in {formatTime(item.taskCompletedAt)} good job.</h1>
                   </div>
                 )}
 
             </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 

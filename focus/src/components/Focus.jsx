@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Outlet,useNavigate  } from 'react-router'
 import 'remixicon/fonts/remixicon.css'
-import {DatePicker, Select} from 'antd'
+import {DatePicker,Button, Select} from 'antd'
 
 function Focus() {
 
@@ -36,7 +36,7 @@ function Focus() {
           <div className=" w-full h-[90%] flex flex-col items-center pt-5 gap-3">
             <div className='w-full h-full flex flex-col items-center gap-3'>
               <Link to="dashboard" className='w-full flex justify-center items-center'>
-            <button className="mastShadow !bg-gradient-to-bl from-indigo-400 via-pink-300 to-indigo-400 !hover:bg-gradient-to-br !hover:from-indigo-400 !hover:via-cyan-400 !hover:to-purple-400 text-[18px] w-[90%] h-[40px] rounded-md"><i className="ri-dashboard-line mr-1"></i> Progress Board </button>
+            <Button size='large' className="mastShadow !bg-gradient-to-bl from-indigo-400 via-pink-300 to-indigo-400 !hover:bg-gradient-to-br !hover:from-indigo-400 !hover:via-cyan-400 !hover:to-purple-400  !text-[18px] w-[90%] h-[40px] rounded-md"><i className="ri-dashboard-line mr-1"></i> Progress Board </Button>
             </Link>
             
             
