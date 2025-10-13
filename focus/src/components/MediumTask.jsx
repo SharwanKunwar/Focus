@@ -1,9 +1,10 @@
 import { Badge, Button, Card, DatePicker, Empty, Form, Input, Modal, Popconfirm, Tag } from 'antd';
 import { useState, useEffect } from 'react';
 import '@ant-design/v5-patch-for-react-19';
-import {useMediumPlanner } from "../Store/useMediumPlanner";
+import { useMediumPlanner} from "../Store/useMediumPlanner";
 import moment from 'moment';
 import Watch from './Watch';
+import { motion } from "motion/react";
 
 function MediumTask() {
   const [form] = Form.useForm();
@@ -12,8 +13,14 @@ function MediumTask() {
   const [activeTask, setActiveTask] = useState(null);
   const [time, setTime] = useState(0); // in milliseconds
   const [isRunning, setIsRunning] = useState(false);
+  
+
 
   const { tasks, addTask, deleteTask, setTasks, updateTaskStatus } = useMediumPlanner();
+  
+
+
+  
 
   // Timer effect
   useEffect(() => {
@@ -28,18 +35,23 @@ function MediumTask() {
 
   // Format -> HH:MM:SS:MS
   const formatTime = (ms) => {
+    if (typeof ms !== "number" || isNaN(ms)) return "00:00:00:00"; // prevent NaN
+
     const hrs = String(Math.floor(ms / 3600000)).padStart(2, "0");
     const mins = String(Math.floor((ms % 3600000) / 60000)).padStart(2, "0");
     const secs = String(Math.floor((ms % 60000) / 1000)).padStart(2, "0");
     const millis = String(Math.floor((ms % 1000) / 10)).padStart(2, "0"); // two-digit ms
+
     return `${hrs}:${mins}:${secs}:${millis}`;
   };
+
 
   // Create Task
   const createTask = (value) => {
     value.status = "Pending";
     value.id = Date.now();
     value.createdAt = new Date().toISOString();
+    value.taskCompletedAt = formatTime(time);
     addTask(value);
     handleClose();
   };
@@ -69,11 +81,11 @@ function MediumTask() {
             <h1 className='text-2xl font-medium text-neutral-600'>Medium Priority Tasks</h1>
           </div>
           <DatePicker placeholder='Select Date' size="middle" className='!bg-gradient-to-br !from-indigo-400 !to-cyan-400 !via-orange-300/50 !text-white !font-medium mastShadow'/>
-          <Button onClick={() => setOpen(true)} className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-orange-300/50 !text-white !font-medium !py-1 !px-3 !rounded-md mastShadow">
+          <Button onClick={() => setOpen(true)} className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-indigo-300 !text-white !font-medium !py-1 !px-3 !rounded-md mastShadow">
             <i className="ri-add-circle-line mr-0"></i>Add Task
           </Button>
           <Popconfirm title={ tasks.length === 0 ? "Nothing to delete!" : "Do you want to delete all tasks?" } onConfirm={allDelete}>
-            <Button className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-orange-300/50 !text-white !font-medium !py-1 !px-5 !rounded-md mastShadow">
+            <Button className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-indigo-300 !text-white !font-medium !py-1 !px-5 !rounded-md mastShadow">
               <i className="ri-delete-bin-2-line mr-0"></i>Delete All Task
             </Button>
           </Popconfirm>
@@ -89,44 +101,83 @@ function MediumTask() {
           </div>
         )}
 
-        {/* Tasks Grid */}
+        {/* task card work here -------------------------------------------- Tasks Grid */}
         <div className="grid grid-cols-3 gap-7 p-5 overflow-y-auto">
           {tasks.map((item, index) => (
-            <Badge.Ribbon text="Medium" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
-              <Card hoverable>
-                <Card.Meta title={item.title} description={item.description} />
-                <div className='mt-5 flex flex-col justify-between items-start'>
+            <div className='bg-white h-[300px] rounded-md flex flex-col justify-between'>
+              <Badge.Ribbon text="Medium" className='font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow' key={index}>
+              <Card hoverable className=' !h-[200px] !rounded-t-md !rounded-b-[5px]'>
+                {
+                  item.description.length > 300 
+                    ? (
+                        <Card.Meta 
+                          title={item.title} 
+                          description={item.description.slice(0, 300) + '...'} 
+                        />
+                      )
+                    : (
+                        <Card.Meta 
+                          title={item.title} 
+                          description={item.description} 
+                        />
+                      )
+                }                
+              </Card>
+            </Badge.Ribbon>
+
+           {/* status / delete / date and time / start task  */}
+            <div className=' h-[110px] px-3'>
+              <div className='pt-3 mb-2 flex flex-col justify-between items-start'>
                   <div className='flex w-full justify-between'>
                     <div className='flex gap-2'>
-                      <Tag className='capitalize mastShadow'>{item.status}</Tag>
+                      {
+                        item.status === "Pending" && (
+                          <Tag className='capitalize mastShadow !bg-gradient-to-br from-indigo-400 to-pink-400 via-white font-medium'>{item.status}</Tag>
+                        )
+                      }
+                      {
+                        item.status === "InProgress" && (
+                          <Tag className='capitalize mastShadow !bg-gradient-to-bl from-indigo-400 to-cyan-400 via-sky-300 font-medium'>{item.status}</Tag>
+                        )
+                      }
+                      {
+                        item.status === "Completed" && (
+                          <Tag className='capitalize mastShadow !bg-gradient-to-bl from-green-500 to-green-400 via-pink-200 font-medium'>{item.status}</Tag>
+                        )
+                      }
                       <Tag onClick={() => deleteTask(item.id)} className='!bg-rose-500 !border-rose-500 !text-white mastShadow'>Delete</Tag>
                     </div>
                     <div>
                       <label className='text-neutral-400 text-[11px]'>{moment().format('DD MMM YYYY, h:mm a')}</label>
-                    </div>
+                    </div> 
                   </div>
                 </div>
 
                 {/* Start Task Button */}
-                {item.status !== "Completed" && (
-                  <div className='mt-5'>
+                {item.status !== "Completed" ? (
+                  <div className='mt-4 flex justify-center items-center'>
                     <Button
                       onClick={() => {
                         setActiveTask(item);
                         setStart(true);
                         setIsRunning(true);
-                        updateTaskStatus(item.id, "inProgress");
+                        updateTaskStatus(item.id, "InProgress");
                         item.status = "InProgress"
                       }}
-                      size="small"
-                      className="mastShadow !bg-gradient-to-br from-indigo-400 via-cyan-400 to-purple-400 !text-white !font-medium !px-32 rounded-md hover:opacity-90 transition duration-300 border-none shadow-md"
+                      size="medium"
+                      className="mastShadow !bg-gradient-to-bl from-indigo-400 via-pink-300 to-indigo-400 !hover:bg-gradient-to-br !hover:from-indigo-400 !hover:via-cyan-400 !hover:to-purple-400 !text-white !font-medium w-[100%]  rounded-md hover:opacity-90 transition duration-300 border-none shadow-md"
                     >
                       Start Task
                     </Button>
                   </div>
+                ):(
+                  <div className='bg-gradient-to-br from-indigo-400 to-orange-400 text-[16px] text-white font-medium rounded-md h-[40%] mt-3 mastShadow flex justify-center items-center'>
+                    <h1>You completed task in {formatTime(item.taskCompletedAt)} good job.</h1>
+                  </div>
                 )}
-              </Card>
-            </Badge.Ribbon>
+
+            </div>
+            </div>
           ))}
         </div>
 
@@ -177,15 +228,22 @@ function MediumTask() {
                       <Button
                         className="!px-20 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !backdrop-blur-2xl !font-medium !text-[16px]"
                         onClick={() => {
-                          updateTaskStatus(activeTask.id, "Completed");
-                          setActiveTask(prev => prev ? { ...prev, status: "Completed" } : prev);
+                          const completedAt = time; // the tracked time when task completes
+
+                          updateTaskStatus(activeTask.id, "Completed", completedAt); // pass the time
+
+                          setActiveTask(prev =>
+                            prev ? { ...prev, status: "Completed", taskCompletedAt: completedAt } : prev
+                          );
+
                           setIsRunning(false);
-                          setTime(0);
                           setStart(false);
+                          setTime(0);
                         }}
                       >
                         Work Done
                       </Button>
+
                     </div>
                   </Card>
                 </div>
