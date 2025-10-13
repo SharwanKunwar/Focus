@@ -211,14 +211,48 @@ function LowerTask() {
           {activeTask && (
             <div className="w-full h-full flex items-center justify-center gap-3 ">
               {/* Left Panel */}
-              <div className='w-6/12 h-full  flex flex-col text-black justify-center items-center'>
-                <div className='w-full h-6/6 flex justify-center items-center'>
+              <div className=' w-6/12 h-full'>
+              {/* watch code  */}
+              <div className=' h-[50%] w-full flex'>
+                 <div className='w-6/12 h-6/6 flex justify-center items-center '>
                   <Watch />
                 </div>
-                <div className='w-full h-6/12 p-5'>
+
+                <div className=' h-[100%] w-full flex justify-center items-center'>
+                  {/* timer code  */}
+                <div className='mt-1  px-3 flex flex-col gap-3 '>
+                  <Card className='flex justify-center items-center mastShadow !bg-gradient-to-br from-indigo-400 to-pink-400 via-orange-400 !text-white !w-[380px] !h-[220px]'>
+                    <div className='text-6xl flex justify-center items-center'>{formatTime(time)}</div>
+                  </Card>
+                  <Button
+                    className="!px-10 !py-5 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !font-medium !text-[16px]"
+                    onClick={() => setIsRunning(prev => !prev)}
+                  >
+                    {isRunning ? "Stop Timer" : "Resume Timer"}
+                  </Button>
+                </div>
+              </div>
+                
+              </div>
+
+              {/* take notes code  */}
+              <div className='pt-3 mt-5 w-full h-[290px] pr-2 bg-gradient-to-br from-indigo-400 to-green-500 via-pink-400 rounded-md p-2'>
+                <h1 className='text-2xl text-white font-medium mb-3 pl-2'>Write anything </h1>
+                  <Form.Item name="description" rules={[{ required: true }]}>
+                    <Input.TextArea placeholder='You can use this field for remember points or make notes' rows={8} className='mastShadow backdrop-blur-2xl opacity-60 font-medium !text-[17px]'/>
+                  </Form.Item>
+                </div>
+
+              </div>
+             
+              
+
+              {/* Right Panel - Timer */}
+              <div className=' w-6/12 h-full '>
+                <div className='w-full h-6/12 pr-8 mt-5'>
                   <Card hoverable className='mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !font-medium !text-[16px]'>
-                    <h1 className='text-2xl capitalize mb-1'>{activeTask.title}</h1>
-                    <h3 className='mb-3 '>{new Date(activeTask.createdAt).toLocaleString()}</h3>
+                    <h1 className='text-2xl capitalize'>{activeTask.title}</h1>
+                    <h3 className='mb-3 text-neutral-200'>{new Date(activeTask.createdAt).toLocaleString()}</h3>
                     <p className='mb-10  font-medium'>{activeTask.description}</p>
                     <div className='flex justify-between items-center'>
                       <label className='py-2 rounded-md font-medium text-start'>
@@ -249,25 +283,7 @@ function LowerTask() {
                 </div>
               </div>
 
-              {/* Right Panel - Timer */}
-              <div className='w-6/12 h-full'>
-                <div className='mt-15 w-full h-[150px] px-3 flex flex-col gap-3 '>
-                  <Card className='flex justify-center items-center mastShadow !bg-gradient-to-br from-indigo-400 to-pink-400 via-orange-400 !text-white'>
-                    <div className='text-6xl flex justify-center items-center'>{formatTime(time)}</div>
-                  </Card>
-                  <Button
-                    className="!px-10 !py-5 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !font-medium !text-[16px]"
-                    onClick={() => setIsRunning(prev => !prev)}
-                  >
-                    {isRunning ? "Stop Timer" : "Resume Timer"}
-                  </Button>
-                </div>
-                <div className='mt-13 w-full h-[300px] pr-2'>
-                  <Form.Item name="description" rules={[{ required: true }]}>
-                    <Input.TextArea placeholder='You can use this field for remember points or make notes' rows={15} className='mastShadow '/>
-                  </Form.Item>
-                </div>
-              </div>
+        
             </div>
           )}
         </Modal>
