@@ -40,19 +40,19 @@ const Watch = () => {
   const minuteTicks = Array.from({ length: 60 }, (_, i) => i);
 
   return (
-    <div ref={containerRef} className="w-[300px] h-[300px] flex items-center justify-center">
+    <div ref={containerRef} className="w-[300px] h-[270px] flex items-center justify-center mt-2 mastShadow">
       <div
-        className="relative rounded-full bg-gradient-to-br from-pink-400 to-orange-400 via-slate-500/50 border-4 backdrop-blur-2xl border-black mastShadow"
+        className="relative rounded-md bg-gradient-to-br from-pink-400 to-orange-400 via-slate-500/50 backdrop-blur-2xl  mastShadow"
         style={{ width: size, height: size }}
       >
         {/* Hour ticks */}
         {hourTicks.map((h) => (
           <div
             key={h}
-            className="absolute bg-black"
+            className="absolute bg-black mastShadow"
             style={{
               width: size * 0.02,
-              height: size * 0.08,
+              height: size * 0.06,
               top: "50%",
               left: "50%",
               transform: `translate(-50%, -99%) rotate(${h * 30}deg)`,
@@ -65,7 +65,7 @@ const Watch = () => {
         {minuteTicks.map((m) => (
           <div
             key={m}
-            className="absolute bg-gray-500 "
+            className="absolute bg-white mastShadow z-50"
             style={{
               width: size * 0.005,
               height: size * 0.03,
@@ -79,10 +79,10 @@ const Watch = () => {
 
         {/* Hour hand */}
         <div
-          className="absolute bg-gradient-to-bl from-red-500 to-cyan-500 via-white rounded-md"
+          className="absolute bg-white rounded-md mastShadow z-10"
           style={{
             width: size * 0.03,
-            height: size * 0.30,
+            height: size * 0.25,
             top: "50%",
             left: "50%",
             transform: `translate(-50%, -99%) rotate(${hourDeg}deg)`,
@@ -92,23 +92,23 @@ const Watch = () => {
 
         {/* Minute hand */}
         <div
-          className="absolute bg-gradient-to-bl from-green-500 to-cyan-500 via-pink-400 rounded-md"
+          className="absolute bg-white rounded-md z-20 mastShadow"
           style={{
             width: size * 0.02,
-            height: size * 0.35,
+            height: size * 0.30,
             top: "50%",
             left: "50%",
-            transform: `translate(-10%, -99%) rotate(${minuteDeg}deg)`,
+            transform: `translate(-50%, -99%) rotate(${minuteDeg}deg)`,
             transformOrigin: "bottom center",
           }}
         />
 
         {/* Second hand */}
         <div
-          className="absolute bg-gradient-to-bl from-red-500 to-cyan-500 via-pink-400 rounded z-10"
+          className="absolute bg-white rounded z-30 mastShadow"
           style={{
             width: size * 0.01,
-            height: size * 0.46,
+            height: size * 0.40,
             top: "50%",
             left: "50%",
             transform: `translate(-50%, -99%) rotate(${secondDeg}deg)`,
@@ -118,7 +118,7 @@ const Watch = () => {
 
         {/* Center circle */}
         <div
-          className="absolute bg-white rounded-full"
+          className="absolute bg-white rounded-full z-40 mastShadow"
           style={{
             width: size * 0.05,
             height: size * 0.05,

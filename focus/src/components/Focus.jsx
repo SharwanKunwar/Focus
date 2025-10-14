@@ -1,24 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link, Outlet,useNavigate  } from 'react-router'
 import 'remixicon/fonts/remixicon.css'
-import {DatePicker,Button, Select} from 'antd'
+import {Button, Select} from 'antd'
 
 function Focus() {
-
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
+  
   const navigate = useNavigate();
-
-  useEffect(()=>{
-    const interval = setInterval(() => {
-      setTime(new Date().toLocaleTimeString())
-    }, 1000);
-    return ()=>{
-      clearInterval(interval)
-    }
-  },[])
-
- 
-
 
   return (
     <>
@@ -28,8 +15,11 @@ function Focus() {
         <div className="bg-white/70 backdrop-blur-2xl w-[20%] h-full rounded-l-2xl text-white">
           {/* logo and site name */}
           <div className=" w-full h-[10.3%] flex justify-center items-center gap-3 border-b  border-black/30 mastShodow">
-            <img src="/icon2.png" alt="logo" width={40} height={40} />
-            <h1 className="text-2xl font-medium text-black">Focus | Planner</h1>
+            <div className='bg-gradient-to-br from-white to-cyan-100 via-pink-100 rounded-md p-1 mastShadow mr-3'>
+              <img src="/icon2.png" alt="logo" width={40} height={40} />
+            </div>
+            <h1 className="text-2xl font-medium text-black">Focus Planner</h1>
+        
           </div>
 
           {/* naveMenu */}
@@ -48,14 +38,6 @@ function Focus() {
             </Select>
             </div>
 
-
-            <div className=' w-full h-[60px]'>
-              <div className='text-end flex justify-center items-center w-full'>
-            <h1 className='text-2xl font-bold font-mono text-neutral-400'>{time}</h1>
-            </div>
-            </div>
-            
-            
           </div>
 
         </div>

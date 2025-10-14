@@ -101,25 +101,27 @@ function LowerTask() {
       <div className="flex flex-col w-full h-full rounded-r-2xl relative">
         
         {/* Header */}
-        <div className="flex justify-end items-center gap-5 p-5 bg-white/30 backdrop-blur-2xl sticky top-0 right-10 pr-10 mastShadow">
+        <div className="flex justify-end items-center gap-5 p-1 bg-white/30 backdrop-blur-2xl sticky top-0 right-10 pr-10 mastShadow">
           
           {/* title of the current page or task priority  */}
-          <div className="w-6/8">
-            <h1 className="text-2xl font-medium text-neutral-600">
-              Lower Priority Tasks
+          <div className="w-6/8 h-[64px] flex justify-between items-center">
+            <h1 className="text-[18px] font-medium text-neutral-600 w-6/20 h-[80%] ml-5 rounded-md flex justify-center items-center mastShadow">
+              Lower Priority Tasks 
             </h1>
+            
           </div>
 
           {/* Date picker for display the tasks or data according to the date which it is added */}
           <DatePicker
+            size="large"
             onChange={(date, dateString)=>setDatePickerDate(dateString)}
             placeholder="Select Date"
-            size="middle"
             className="!bg-gradient-to-br !from-indigo-400 !to-cyan-400 !via-orange-300/50 !text-white !font-medium mastShadow"
           />
 
           {/* //Button for Add new task */}
           <Button
+            size="large"
             onClick={() => setOpen(true)}
             className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-indigo-300 !text-white !font-medium !py-1 !px-3 !rounded-md mastShadow"
           >
@@ -135,7 +137,9 @@ function LowerTask() {
             }
             onConfirm={allDelete}
           >
-            <Button className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-indigo-300 !text-white !font-medium !py-1 !px-5 !rounded-md mastShadow">
+            <Button 
+            size="large"
+            className="!bg-gradient-to-br from-indigo-400 to-cyan-400 via-indigo-300 !text-white !font-medium !py-1 !px-5 !rounded-md mastShadow">
               <i className="ri-delete-bin-2-line mr-0"></i>Delete All Task
             </Button>
           </Popconfirm>
