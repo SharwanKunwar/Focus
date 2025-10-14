@@ -7,6 +7,7 @@ import Watch from "./Watch";
 import { motion } from "motion/react";
 
 
+
 function HigherTask() {
 
   //states
@@ -19,6 +20,7 @@ function HigherTask() {
   const [note, setNote] = useState("");
   const [noteOpen, setNoteOpen] = useState(false);
   const [card, setCard] = useState(null);
+  const [datePickerDate, setDatePickerDate] = useState(moment().format("YYYY-MM-DD"));
 
   //Planner for access the data in different components and elements
   const { tasks, addTask, deleteTask, setTasks, updateTaskStatus, storeNote, viewNote} = usePlanner();
@@ -51,6 +53,7 @@ function HigherTask() {
     value.id = Date.now();
     value.createdAt = new Date().toISOString();
     value.taskCreatedAt = moment().format("DD MMM YYYY, h:mm a");
+    value.dateForSearch = moment().format("YYYY-MM-DD");
     value.taskCompletedAt = formatTime(time);
     addTask(value);
     handleClose();  // this is the function for close the model when the task creation field is done
@@ -103,17 +106,18 @@ function HigherTask() {
           {/* title of the current page or task priority  */}
           <div className="w-6/8">
             <h1 className="text-2xl font-medium text-neutral-600">
-              Higher Priority Tasks
+              Higher Priority Tasks 
             </h1>
           </div>
 
           {/* Date picker for display the tasks or data according to the date which it is added */}
           <DatePicker
+            onChange={(date, dateString)=>setDatePickerDate(dateString)}
             placeholder="Select Date"
             size="middle"
             className="!bg-gradient-to-br !from-indigo-400 !to-cyan-400 !via-orange-300/50 !text-white !font-medium mastShadow"
           />
-
+          
           {/* //Button for Add new task */}
           <Button
             onClick={() => setOpen(true)}
@@ -160,8 +164,22 @@ function HigherTask() {
         {/* Task card design work here ----------------------------------------------------------------------------------------------------------- Tasks Grid */}
         <div className="grid grid-cols-3 gap-7 p-5 overflow-y-auto">
           {/* Used map for dynamic data handlying  -------------------------------------------------------------------------------------------*/}
-          {tasks.map((item, index) => (
-            <motion.div
+          
+          {tasks.filter((item) => item.dateForSearch !== datePickerDate)
+          .map(()=>(
+              <div className="w-[75vw] h-[70vh] flex justify-center items-center">
+                <div className="bg-white py-15 px-40 rounded-lg mastShadow">
+                  <h1 className="text-3xl font-medium">This day you did create any task</h1>
+                </div>
+              </div>
+              
+            )) // filter tasks by date}
+          }
+
+          {tasks
+            .filter((item) => item.dateForSearch === datePickerDate) // filter tasks by date
+            .map((item, index) => (
+              <motion.div
               initial={{ scale: 0, opacity: 0, filter: "blure(10xp)" }}
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
@@ -265,7 +283,8 @@ function HigherTask() {
 
               </div>
             </motion.div>
-          ))}     
+            ))}
+
            {/* map is finished here ----------------------------------------------------------------------------------------------- */}
         </div>
 

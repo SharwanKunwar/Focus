@@ -19,6 +19,7 @@ function LowerTask() {
   const [note, setNote] = useState("");
   const [noteOpen, setNoteOpen] = useState(false);
   const [card, setCard] = useState(null);
+  const [datePickerDate, setDatePickerDate] = useState(moment().format("YYYY-MM-DD"));
 
   //Planner for access the data in different components and elements
   const { tasks, addTask, deleteTask, setTasks, updateTaskStatus, storeNote, viewNote} = useLowerPlanner();
@@ -51,6 +52,7 @@ function LowerTask() {
     value.id = Date.now();
     value.createdAt = new Date().toISOString();
     value.taskCreatedAt = moment().format("DD MMM YYYY, h:mm a");
+    value.dateForSearch = moment().format("YYYY-MM-DD");
     value.taskCompletedAt = formatTime(time);
     addTask(value);
     handleClose();  // this is the function for close the model when the task creation field is done
@@ -109,6 +111,7 @@ function LowerTask() {
 
           {/* Date picker for display the tasks or data according to the date which it is added */}
           <DatePicker
+            onChange={(date, dateString)=>setDatePickerDate(dateString)}
             placeholder="Select Date"
             size="middle"
             className="!bg-gradient-to-br !from-indigo-400 !to-cyan-400 !via-orange-300/50 !text-white !font-medium mastShadow"
@@ -160,14 +163,31 @@ function LowerTask() {
         {/* Task card design work here ----------------------------------------------------------------------------------------------------------- Tasks Grid */}
         <div className="grid grid-cols-3 gap-7 p-5 overflow-y-auto">
           {/* Used map for dynamic data handlying  -------------------------------------------------------------------------------------------*/}
-          {tasks.map((item, index) => (
-            <motion.div
+          {tasks.filter((item) => item.dateForSearch !== datePickerDate)
+          .map(()=>(
+              <div className="w-[75vw] h-[70vh] flex justify-center items-center">
+                <div className="bg-white py-15 px-40 rounded-lg mastShadow">
+                  <h1 className="text-3xl font-medium">This day you did create any task</h1>
+                </div>
+              </div>
+              
+            )) // filter tasks by date}
+          }
+          
+          {tasks
+            .filter((item) => item.dateForSearch === datePickerDate) // filter tasks by date
+            .map((item, index) => (
+              <motion.div
               initial={{ scale: 0, opacity: 0, filter: "blure(10xp)" }}
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
               className="bg-white h-[265px] rounded-md flex flex-col justify-between"
             >
-              <Badge.Ribbon key={index} text="Lower" className="font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow">
+              <Badge.Ribbon
+                text="Higher"
+                className="font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow"
+                key={index}
+              >
                 <Card
                   hoverable
                   className=" !h-[165px] !rounded-t-md !rounded-b-[5px]"
@@ -261,7 +281,7 @@ function LowerTask() {
 
               </div>
             </motion.div>
-          ))}     
+            ))}  
            {/* map is finished here ----------------------------------------------------------------------------------------------- */}
         </div>
 

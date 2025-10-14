@@ -27,7 +27,7 @@ function Focus() {
         {/* left tool box and nav */}
         <div className="bg-white/70 backdrop-blur-2xl w-[20%] h-full rounded-l-2xl text-white">
           {/* logo and site name */}
-          <div className=" w-full h-[9.7%] flex justify-center items-center gap-3 border-b  border-black/30 mastShodow">
+          <div className=" w-full h-[10.3%] flex justify-center items-center gap-3 border-b  border-black/30 mastShodow">
             <img src="/icon2.png" alt="logo" width={40} height={40} />
             <h1 className="text-2xl font-medium text-black">Focus | Planner</h1>
           </div>
@@ -40,6 +40,7 @@ function Focus() {
             </Link>
             
             
+            
             <Select placeholder="View All Task" size="large" className="w-[90%] text-center font-medium !border-none !outline-none mastShadow !rounded-lg " onChange={(value) => navigate(value)}>
               <Select.Option value="higher">Higher Priority Task</Select.Option>
               <Select.Option value="medium">Medium Priority Task</Select.Option>
@@ -48,7 +49,7 @@ function Focus() {
             </div>
 
 
-            <div className=' w-full h-[40px]'>
+            <div className=' w-full h-[60px]'>
               <div className='text-end flex justify-center items-center w-full'>
             <h1 className='text-2xl font-bold font-mono text-neutral-400'>{time}</h1>
             </div>
