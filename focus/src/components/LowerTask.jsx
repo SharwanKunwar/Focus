@@ -188,7 +188,7 @@ function LowerTask() {
             >
               <Badge.Ribbon
                 text="Lower"
-                className="font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow"
+                className="font-medium bg-gradient-to-br from-sky-500 to-purple-500 via-purple-400 mastShadow"
                 key={index}
               >
                 <Card

@@ -189,7 +189,7 @@ function MediumTask() {
             >
               <Badge.Ribbon
                 text="Medium"
-                className="font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow"
+                className="font-medium bg-gradient-to-br from-green-400 to-purple-500 via-green-400 mastShadow"
                 key={index}
               >
                 <Card
