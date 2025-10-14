@@ -20,7 +20,7 @@ function HigherTask() {
   const [note, setNote] = useState("");
   const [noteOpen, setNoteOpen] = useState(false);
   const [card, setCard] = useState(null);
-  const [datePickerDate, setDatePickerDate] = useState(moment().format("YYYY-MM-DD"));
+  const [datePickerDate, setDatePickerDate] = useState("");
 
   //Planner for access the data in different components and elements
   const { tasks, addTask, deleteTask, setTasks, updateTaskStatus, storeNote, viewNote} = usePlanner();
@@ -167,11 +167,13 @@ function HigherTask() {
                       <i className="ri-add-circle-line mr-0"></i>Create your first Task
                     </Button>
                   </div>
-                ):(
-                  <h1 className="text-3xl font-medium text-center">
-                    You didn’t create any task on this day
-                  </h1>
-                )}
+                )
+                : datePickerDate === null || datePickerDate === undefined || datePickerDate === "" ?
+                  (
+                    <h1 className="text-3xl font-medium text-center">{setDatePickerDate(moment().format("YYYY-MM-DD"))} </h1>  //if ture
+                  )
+                    : (<h1 className="text-3xl font-medium text-center"> You didn’t create any task on this day </h1> )//if false
+                  }
                 
 
               </div>
