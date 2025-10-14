@@ -2,7 +2,7 @@
 import { motion } from "motion/react";
 import React, { useState, useEffect } from "react";
 import { Background } from "./Background";
-import { Link } from 'react-router-dom' // ✅ not react-router
+import { Link } from 'react-router-dom'
 import { Badge, Button, Card, DatePicker, Empty, Form, Input, Modal, Popconfirm, Tag } from 'antd';
 
 
@@ -53,7 +53,7 @@ export function Setbackground() {
        </div>
        </Card>
        <div className=" rounded-md w-6/12 h-[100px] flex justify-center items-start ">
-      <Link to="/Focus" className="w-[400px] flex justify-center items-center "> <Button className="!bg-gradient-to-br mt-3 !from-indigo-300 !to-cyan-200 !via-orange-400 !hover:bg-gradient-to-bl !hover:font-bold !hover:text-white !hover:from-cyan-300 !hover:to-indigo-500 !hover:via-cyan-400 !font-medium !text-[18px] !font-mono !w-[200px] !h-[40px]">Get started</Button></Link>
+      <Link to="/Focus" className="w-[400px] flex justify-center items-center "> <Button className="!bg-gradient-to-br mt-3 !from-white !to-white !via-sky-400 !hover:bg-gradient-to-bl !hover:font-bold !hover:text-white !hover:from-cyan-300 !hover:to-indigo-500 !hover:via-cyan-400 !font-medium !text-[18px] !font-mono !w-[200px] !h-[40px]">Get started</Button></Link>
        </div>
       </motion.div>
     </Background>
