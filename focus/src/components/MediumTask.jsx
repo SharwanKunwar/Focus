@@ -188,7 +188,7 @@ function MediumTask() {
               className="bg-white h-[265px] rounded-md flex flex-col justify-between"
             >
               <Badge.Ribbon
-                text="Higher"
+                text="Medium"
                 className="font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow"
                 key={index}
               >
