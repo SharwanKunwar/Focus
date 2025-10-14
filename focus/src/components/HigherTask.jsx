@@ -1,4 +1,4 @@
-import { Badge, Button, Card, DatePicker, Empty, Form, Input, Modal, Popconfirm, Tag} from "antd";
+import { Badge, Button, Card, DatePicker, Empty, Form, Input, Modal, Popconfirm, Tag,} from "antd";
 import { useState, useEffect } from "react";
 import "@ant-design/v5-patch-for-react-19";
 import { usePlanner } from "../Store/usePlanner";
@@ -55,6 +55,7 @@ function HigherTask() {
     value.taskCreatedAt = moment().format("DD MMM YYYY, h:mm a");
     value.dateForSearch = moment().format("YYYY-MM-DD");
     value.taskCompletedAt = formatTime(time);
+    setDatePickerDate(moment().format("YYYY-MM-DD"))
     addTask(value);
     handleClose();  // this is the function for close the model when the task creation field is done
   };
@@ -145,41 +146,45 @@ function HigherTask() {
         {/* ------------------------------------------------------- content box where all task cards are appear --------------------------------------------------------------------------- */}
 
         {/* Empty State this shows empty msg when the data or task is not added yet */}
-        {tasks.length === 0 && (
-          <div className="w-full h-full flex flex-col gap-15 justify-center items-center">
-            <Empty
-              description="Task is not created yet!"
-              className="scale-150 !text-[12px]"
-            />
-            <Button
-              onClick={() => setOpen(true)}
-              className="mastShadow !bg-gradient-to-br from-indigo-400 to-cyan-400 via-orange-300/50 !text-white !font-medium !px-5 !rounded-md"
-            >
-              <i className="ri-add-circle-line mr-0"></i>Create your first Task
-            </Button>
-          </div>
-        )}
-
+        
 
         {/* Task card design work here ----------------------------------------------------------------------------------------------------------- Tasks Grid */}
         <div className="grid grid-cols-3 gap-7 p-5 overflow-y-auto">
-          {/* Used map for dynamic data handlying  -------------------------------------------------------------------------------------------*/}
-          
-          {tasks.filter((item) => item.dateForSearch !== datePickerDate)
-          .map(()=>(
-              <div className="w-[75vw] h-[70vh] flex justify-center items-center">
-                <div className="bg-white py-15 px-40 rounded-lg mastShadow">
-                  <h1 className="text-3xl font-medium">This day you did create any task</h1>
-                </div>
+          {/* Used map and filter for dynamic data handlying  -------------------------------------------------------------------------------------------*/}
+          {tasks.filter(item => item.dateForSearch === datePickerDate).length === 0 && (
+            <div className="w-[75vw] h-[70vh] flex justify-center items-center">
+              <div className="bg-white py-15 px-40 rounded-lg mastShadow">
+                {tasks.length === 0 ? (
+                  <div className="w-full h-full flex flex-col gap-15 justify-center items-center">
+                    <Empty
+                      description="Task is not created yet!"
+                      className="scale-150 !text-[12px]"
+                    />
+                    <Button
+                      onClick={() => setOpen(true)}
+                      className="mastShadow !bg-gradient-to-br from-indigo-400 to-cyan-400 via-orange-300/50 !text-white !font-medium !px-5 !rounded-md"
+                    >
+                      <i className="ri-add-circle-line mr-0"></i>Create your first Task
+                    </Button>
+                  </div>
+                ):(
+                  <h1 className="text-3xl font-medium text-center">
+                    You didn’t create any task on this day
+                  </h1>
+                )}
+                
+
               </div>
-              
-            )) // filter tasks by date}
-          }
+            </div>
+          )}
+
+
 
           {tasks
             .filter((item) => item.dateForSearch === datePickerDate) // filter tasks by date
             .map((item, index) => (
               <motion.div
+              key={index}
               initial={{ scale: 0, opacity: 0, filter: "blure(10xp)" }}
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
