@@ -419,7 +419,7 @@ function HigherTask() {
                   initial={{ filter: "blur(5px)" }}
                   whileInView={{ filter: "blur(0px)" }}
                   transition={{ delay: 0.2, duration: 0.3 }}
-                  className="pt-3 mt-5 w-full h-[290px] pr-2 bg-gradient-to-br from-indigo-400 to-green-500 via-pink-400 rounded-md p-2"
+                  className="pt-3 mt-2 w-[98%] h-[290px] pr-2 bg-gradient-to-br from-indigo-400 to-green-500 via-pink-400 rounded-md p-2"
                 >
                   <h1 className="text-2xl text-white font-medium mb-3 pl-2">
                     Write anything{" "}

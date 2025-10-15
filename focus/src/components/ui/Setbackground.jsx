@@ -22,7 +22,8 @@ export function Setbackground() {
   }, []);
 
   if(isMobile){
-    return <p className="w-full h-full flex justify-center items-center text-2xl p-10 bg-gradient-to-br from-indigo-400 to-orange-400 via-pink-400 font-medium text-white">Developer doesn't allowed to view this site in phone  coz he is lazy to make it responsive 😅</p>
+    return <p className="w-full h-full flex justify-center items-center text-2xl p-10 bg-gradient-to-br from-indigo-400 to-orange-400 via-pink-400 font-medium text-white">Mobile users beware — this site self-destructs on small screens 💥📱
+The developer buried responsiveness six feet under 🪦💻</p>
   }else{
 
       
