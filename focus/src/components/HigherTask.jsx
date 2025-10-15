@@ -500,15 +500,15 @@ function HigherTask() {
             <h1 className="text-2xl font-medium mb-1 text-slate-700">
               Note Description Of {" "}
               <span className="text-red-500 font-bold">"</span>
-              <span className="text-black">{card?.title}</span>
+              <span className="text-black text-[18px]">{card?.title}</span>
               <span className="text-red-500 font-bold">"</span>
-              {" "} Writen By <span className="text-red-500 font-bold">"</span><span className="text-black">{auth.username}</span><span className="text-red-500 font-bold">"</span>
+              {" "} Writen By <span className="text-red-500 font-bold">"</span><span className="text-black text-[18px]">{auth.username}</span><span className="text-red-500 font-bold">"</span>
             </h1>
             <h6 className="text-neutral-400 border-b border-black/30 pb-2 mb-3">
               At: {card?.taskFinishedAt}
             </h6>
             <div className="hide-scrollbar overflow-y-auto max-h-[500px]">
-              <p className=" text-[18px] font-medium text-neutral-400">
+              <p className=" text-[18px] text-neutral-600 whitespace-pre-wrap">
                 {card
                   ? viewNote(card.id) || "No description added yet."
                   : "No task selected."}

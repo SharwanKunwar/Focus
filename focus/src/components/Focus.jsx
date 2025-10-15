@@ -53,8 +53,8 @@ function Focus() {
       {/* Sidebar */}
       <div className="bg-white/70 backdrop-blur-2xl w-[20%] h-full rounded-l-2xl text-white">
         {/* Logo and site name */}
-        <div className=" w-full h-[10.3%] flex justify-center items-center gap-3 border-b border-black/30 mastShodow">
-          <div className='bg-gradient-to-br from-white to-cyan-100 via-pink-100 rounded-md p-1 mastShadow mr-3'>
+        <div className=" w-full h-[10.3%] flex justify-center items-center gap-3 border-b border-black/30 mastShodow ">
+          <div onClick={()=>setWelcomeMsgOpen(true)} className='bg-gradient-to-br from-white to-cyan-100 via-pink-100 hover:bg-gradient-to-bl hover:from-sky-400 hover:to-cyan-400 hover:via-pink-400  rounded-md p-1 mastShadow mr-3'>
             <img src="/icon2.png" alt="logo" width={40} height={40} />
           </div>
           <h1 className="text-2xl font-medium text-black">Focus Planner</h1>
@@ -95,8 +95,14 @@ function Focus() {
         maskClosable={false}
         onCancel={handleWelcomeClose}
         centered
-        className="p-4"
+        className="!p-4 !bg-gradient-to-bl !from-sky-400 !to-cyan-400 !via-pink-400 !rounded-2xl "
+        bodyStyle={{
+          background: 'transparent',
+          padding: '1px',
+          color: '#fff',
+        }}
       >
+
         <div className="flex flex-col gap-4">
           <h1 className='text-[20px] font-semibold text-gray-800'>
             Brace yourself, {auth.username} 😏
