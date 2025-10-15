@@ -20,8 +20,8 @@ function HigherTask() {
   const [note, setNote] = useState("");
   const [noteOpen, setNoteOpen] = useState(false);
   const [card, setCard] = useState(null);
-  const [datePickerDate, setDatePickerDate] = useState("");
-  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString());
+  const [datePickerDate, setDatePickerDate] = useState(moment().format("YYYY-MM-DD"));
+  
 
   //Planner for access the data in different components and elements
   const { tasks, addTask, deleteTask, setTasks, updateTaskStatus, storeNote, viewNote} = usePlanner();
@@ -167,6 +167,7 @@ function HigherTask() {
           {tasks.filter(item => item.dateForSearch === datePickerDate).length === 0 && (
             <div className="w-[75vw] h-[70vh] flex justify-center items-center">
               <div className="bg-white py-15 px-40 rounded-lg mastShadow">
+
                 {tasks.length === 0 ? (
                   <div className="w-full h-full flex flex-col gap-15 justify-center items-center">
                     <Empty
@@ -185,7 +186,20 @@ function HigherTask() {
                   (
                     <h1 className="text-3xl font-medium text-center">{setDatePickerDate(moment().format("YYYY-MM-DD"))} </h1>  //if ture
                   )
-                    : (<h1 className="text-3xl font-medium text-center"> You didn’t create any task on this day </h1> )//if false
+                    : datePickerDate ===  currentDate?  (  // if false
+                      <div className="w-full h-full flex flex-col gap-15 justify-center items-center">
+                    <Empty
+                      description="Task is not created yet!"
+                      className="scale-150 !text-[12px]"
+                    />
+                    <Button
+                      onClick={() => setOpen(true)}
+                      className="mastShadow !bg-gradient-to-br from-indigo-400 to-cyan-400 via-orange-300/50 !text-white !font-medium !px-5 !rounded-md"
+                    >
+                      <i className="ri-add-circle-line mr-0"></i>Create your first Task
+                    </Button>
+                  </div>
+                    ) : (<h>"Looks like you didn’t add any tasks today."</h>)//if false
                   }
                 
 
