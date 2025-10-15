@@ -2,6 +2,7 @@ import { Badge, Button, Card, DatePicker, Empty, Form, Input, Modal, Popconfirm,
 import { useState, useEffect } from "react";
 import "@ant-design/v5-patch-for-react-19";
 import { usePlanner } from "../Store/usePlanner";
+import {useAuthPlanner} from '../Store/useAuthPlanner'
 import moment from "moment";
 import Watch from "./Watch";
 import { motion } from "motion/react";
@@ -25,6 +26,7 @@ function HigherTask() {
 
   //Planner for access the data in different components and elements
   const { tasks, addTask, deleteTask, setTasks, updateTaskStatus, storeNote, viewNote} = usePlanner();
+  const {auth} = useAuthPlanner();
 
   // Timer effect to set the count or timestamp to calcuatle the duration of the task
   useEffect(() => {
@@ -422,7 +424,7 @@ function HigherTask() {
                   className="pt-3 mt-2 w-[98%] h-[290px] pr-2 bg-gradient-to-br from-indigo-400 to-green-500 via-pink-400 rounded-md p-2"
                 >
                   <h1 className="text-2xl text-white font-medium mb-3 pl-2">
-                    Write anything{" "}
+                    Write anything here "{auth.username}"
                   </h1>
                   <Form.Item rules={[{ required: true }]}>
                     <Input.TextArea
@@ -495,14 +497,15 @@ function HigherTask() {
           closable={true}
         >
           <div className="w-[95%] h-full p-3">
-            <h1 className="text-2xl font-medium mb-1">
-              Note Description Of{" "}
+            <h1 className="text-2xl font-medium mb-1 text-slate-700">
+              Note Description Of {" "}
               <span className="text-red-500 font-bold">"</span>
-              {card?.title}
+              <span className="text-black">{card?.title}</span>
               <span className="text-red-500 font-bold">"</span>
+              {" "} Writen By <span className="text-red-500 font-bold">"</span><span className="text-black">{auth.username}</span><span className="text-red-500 font-bold">"</span>
             </h1>
             <h6 className="text-neutral-400 border-b border-black/30 pb-2 mb-3">
-              {card?.taskFinishedAt}
+              At: {card?.taskFinishedAt}
             </h6>
             <div className="hide-scrollbar overflow-y-auto max-h-[500px]">
               <p className=" text-[18px] font-medium text-neutral-400">
