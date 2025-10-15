@@ -94,7 +94,15 @@ function LowerTask() {
     }
   }, [card]);
 
-
+  //Function getting the current date when firstly loaded/rendered for comparing the date comming from the task
+      useEffect(()=>{
+        const interval = setInterval(() => {
+          setCurrentDate(moment().format("YYYY-MM-DD"))
+        }, 1000);
+        return ()=>{
+          clearInterval(interval)
+        }
+      },[])
 
 
   return (

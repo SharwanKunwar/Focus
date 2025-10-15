@@ -1,11 +1,12 @@
 import { Badge, Button, Card, DatePicker, Empty, Form, Input, Modal, Popconfirm, Tag,} from "antd";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "@ant-design/v5-patch-for-react-19";
 import { usePlanner } from "../Store/usePlanner";
 import {useAuthPlanner} from '../Store/useAuthPlanner'
 import moment from "moment";
 import Watch from "./Watch";
 import { motion } from "motion/react";
+import MusicPlayer from "./MusicPlayer";
 
 
 
@@ -22,7 +23,10 @@ function HigherTask() {
   const [noteOpen, setNoteOpen] = useState(false);
   const [card, setCard] = useState(null);
   const [datePickerDate, setDatePickerDate] = useState(moment().format("YYYY-MM-DD"));
-  const [currentDate , setCurrentDate] = useState(moment().format("YYYY-MM-DD"));
+  const [currentDate , setCurrentDate] = useState(moment().format("YYYY-MM-DD"));           // check if needed 
+  const [openMusicModel, setOpenMusicModel] = useState(false);
+  const audioRef = useRef(null);
+
 
   //Planner for access the data in different components and elements
   const { tasks, addTask, deleteTask, setTasks, updateTaskStatus, storeNote, viewNote} = usePlanner();
@@ -97,15 +101,21 @@ function HigherTask() {
     }
   }, [card]);
 
-  //Function for displaying current time
+  //Function getting the current date when firstly loaded/rendered for comparing the date comming from the task
     useEffect(()=>{
       const interval = setInterval(() => {
-        setCurrentTime(new Date().toLocaleTimeString())
+        setCurrentDate(moment().format("YYYY-MM-DD"))
       }, 1000);
       return ()=>{
         clearInterval(interval)
       }
     },[])
+
+
+    // function for handlying study music model cancel button
+    const handleMusicModelCencle = () => {
+      setOpenMusicModel(false);
+    }
   
 
 
@@ -201,7 +211,7 @@ function HigherTask() {
                       <i className="ri-add-circle-line mr-0"></i>Create your first Task
                     </Button>
                   </div>
-                    ) : (<h>"Looks like you didn’t add any tasks today."</h>)//if false
+                    ) : (<h>"Looks like you didn’t add any tasks today."</h>) //if false
                   }
                 
 
@@ -399,17 +409,23 @@ function HigherTask() {
 
                     {/* Timestamp which track the task completed time  */}
                     <div className="mt-1  px-3 flex flex-col gap-3 ">
-                      <Card className="flex justify-center items-center mastShadow !bg-gradient-to-br from-indigo-400 to-pink-400 via-orange-400 !text-white !w-[380px] !h-[220px]">
+                      <Card className="flex justify-center items-center mastShadow !bg-gradient-to-br from-indigo-400 to-pink-400 via-orange-400 !text-white !w-[25vw] !h-[23vh]">
                         <div className="text-6xl flex justify-center items-center">
                           {formatTime(time)}
                         </div>
                       </Card>
+
+                      {/* timer stope resume button which manuplate timer */}
                       <Button
                         className="!px-10 !py-5 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !font-medium !text-[16px]"
                         onClick={() => setIsRunning((prev) => !prev)}
                       >
                         {isRunning ? "Stop Timer" : "Resume Timer"}
                       </Button>
+
+                      {/* Study with music button  ---------------- working here right now*/}
+                      <Button onClick={()=>setOpenMusicModel(true)} className="!px-10 !py-5 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-slate-400 !text-white !font-medium !text-[16px]">Play Study Music</Button>
+
                     </div>
 
                   </div>
@@ -421,10 +437,10 @@ function HigherTask() {
                   initial={{ filter: "blur(5px)" }}
                   whileInView={{ filter: "blur(0px)" }}
                   transition={{ delay: 0.2, duration: 0.3 }}
-                  className="pt-3 mt-2 w-[98%] h-[290px] pr-2 bg-gradient-to-br from-indigo-400 to-green-500 via-pink-400 rounded-md p-2"
+                  className="pt-3 mt-2 w-[46vw] h-[40vh] pr-2 bg-gradient-to-br from-indigo-400 to-green-500 via-pink-400 rounded-md p-2"
                 >
                   <h1 className="text-2xl text-white font-medium mb-3 pl-2">
-                    Write anything here "{auth.username}"
+                    Write anything here <span className="text-black font-bold"> " </span>{auth.username}<span className="text-black font-bold"> " </span>
                   </h1>
                   <Form.Item rules={[{ required: true }]}>
                     <Input.TextArea
@@ -444,7 +460,7 @@ function HigherTask() {
                   initial={{ filter: "blur(5px)" }}
                   whileInView={{ filter: "blur(0px)" }}
                   transition={{ delay: 0.1, duration: 0.3 }}
-                  className="w-full h-6/12 pr-8 mt-3"
+                  className="w-full h-6/12 pr-8 mt-[1.5vh]"
                 >
                   <Card hoverable className="mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !font-medium !text-[16px]" >
                     <h1 className="text-2xl capitalize">{activeTask.title}</h1>
@@ -460,7 +476,8 @@ function HigherTask() {
                         <span className="font-bold">{activeTask.status}</span>
                       </label>
                       <Button
-                        className="!px-20 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !backdrop-blur-2xl !font-medium !text-[16px]"
+                      size="large"
+                        className="!px-15 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !backdrop-blur-2xl !font-medium !text-[16px]"
                         onClick={() => {
                           const completedAt = time; // the tracked time when task completes
                           updateTaskStatus( activeTask.id, "Completed", completedAt ); // pass the time
@@ -470,6 +487,9 @@ function HigherTask() {
                           setStart(false);
                           setNote("");
                           setTime(0);
+                          if(audioRef.current){
+                            audioRef.current.pause();
+                          }
                         }}
                       > Work Done </Button>
                     </div>
@@ -516,6 +536,29 @@ function HigherTask() {
             </div>
           </div>
         </Modal>
+
+        {/* Model for study music  ----------------------------------- */}
+        <Modal 
+        open={openMusicModel} 
+        footer={null} 
+        maskClosable={false} 
+        onCancel={handleMusicModelCencle}
+        width="100%"
+          style={{ top: 80, padding: 10 }}
+          bodyStyle={{ padding: 25, height: "80vh" }}
+          closable={true}
+        >
+          {/* top div  */}
+          <div className="bg-gray-50 h-full rounded-sm mastShadow flex gap-3">
+            <MusicPlayer onRefReady={(ref) => (audioRef.current = ref.current)} />
+          </div>
+        </Modal>
+
+
+
+
+
+
       </div>
     </>
   );

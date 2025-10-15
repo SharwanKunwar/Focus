@@ -40,7 +40,7 @@ const Watch = () => {
   const minuteTicks = Array.from({ length: 60 }, (_, i) => i);
 
   return (
-    <div ref={containerRef} className="w-[300px] h-[270px] flex items-center justify-center mt-2 mastShadow">
+    <div ref={containerRef} className="w-[20vw] h-[38vh] flex items-center justify-center mt-2 mastShadow">
       <div
         className="relative rounded-md bg-gradient-to-br from-pink-400 to-orange-400 via-slate-500/50 backdrop-blur-2xl  mastShadow"
         style={{ width: size, height: size }}
@@ -53,8 +53,8 @@ const Watch = () => {
             style={{
               width: size * 0.02,
               height: size * 0.06,
-              top: "50%",
-              left: "50%",
+              top: "48%",
+              left: "48%",
               transform: `translate(-50%, -99%) rotate(${h * 30}deg)`,
               transformOrigin: "bottom center",
             }}
@@ -69,8 +69,8 @@ const Watch = () => {
             style={{
               width: size * 0.005,
               height: size * 0.03,
-              top: "50%",
-              left: "50%",
+              top: "48%",
+              left: "48%",
               transform: `translate(-50%, -99%) rotate(${m * 6}deg)`,
               transformOrigin: "bottom center",
             }}
@@ -83,8 +83,8 @@ const Watch = () => {
           style={{
             width: size * 0.03,
             height: size * 0.25,
-            top: "50%",
-            left: "50%",
+            top: "48%",
+            left: "48%",
             transform: `translate(-50%, -99%) rotate(${hourDeg}deg)`,
             transformOrigin: "bottom center",
           }}
@@ -96,8 +96,8 @@ const Watch = () => {
           style={{
             width: size * 0.02,
             height: size * 0.30,
-            top: "50%",
-            left: "50%",
+            top: "48%",
+            left: "48%",
             transform: `translate(-50%, -99%) rotate(${minuteDeg}deg)`,
             transformOrigin: "bottom center",
           }}
@@ -108,9 +108,9 @@ const Watch = () => {
           className="absolute bg-white rounded z-30 mastShadow"
           style={{
             width: size * 0.01,
-            height: size * 0.40,
-            top: "50%",
-            left: "50%",
+            height: size * 0.4,
+            top: "48%",
+            left: "48%",
             transform: `translate(-50%, -99%) rotate(${secondDeg}deg)`,
             transformOrigin: "bottom center",
         }}/>
@@ -122,8 +122,8 @@ const Watch = () => {
           style={{
             width: size * 0.05,
             height: size * 0.05,
-            top: "50%",
-            left: "50%",
+            top: "48%",
+            left: "48%",
             transform: "translate(-50%, -50%)",
             zIndex: 10,
           }}
