@@ -10,10 +10,31 @@ function Focus() {
 
   // Fun dark-humor messages for the modal
   const messages = [
-    "Your tasks are waiting… like tiny executioners.",
-    "Chaos is mandatory. Survive if you can.",
-    "Remember: procrastination is a horror story, starring you.",
-  ];
+  "Your tasks are waiting… like tiny executioners ready to pounce the moment you look away. Delay too long and they’ll haunt your dreams with guilt you can’t escape.",
+  "Chaos is mandatory. Survive if you can. Every undone task is a little demon laughing at you while you scroll aimlessly through cat videos and pretend you’re busy.",
+  "Remember: procrastination is a horror story starring you as the unlucky victim. Every moment you delay, your to-do list multiplies like an army of ghosts plotting revenge.",
+  "Procrastinate now, panic later. The panic is deliciously dark, creeping into every corner of your mind while the tasks sit silently, judging your life choices.",
+  "Your deadlines are breathing down your neck. They enjoy it. Each tick of the clock is a sinister reminder that your comfort today is tomorrow’s nightmare.",
+  "Work hard, or your future self will haunt you forever. Each ignored task leaves a scar on your soul, whispering 'why didn’t you finish me when you could?'",
+  "Every undone task is a ghost whispering 'why me?' in your ear. Ignore them, and they’ll start screaming at 3 a.m., turning your calm night into chaos.",
+  "The to-do list grows while your soul shrinks. Each item is a little horror waiting for the moment you dare to close your eyes, laughing at your delay.",
+  "Tasks today, nightmares tonight. Each unchecked box multiplies in the shadows, plotting subtle revenge on your peace of mind while you sip coffee.",
+  "The more you delay, the more thrilling the chaos becomes. Procrastination is just suspense; your anxiety is the main character in this thriller.",
+  "Your productivity is like a horror movie—plot twist every minute. Just when you think you’re safe, another task jumps out from behind the shadows.",
+  "Failure is permanent; excuses are temporary. Every excuse you make is just fuel for the growing army of undone tasks that will chase you relentlessly.",
+  "The clock ticks. So do your regrets. Each second lost to distraction is a demon added to your list, grinning as you scroll past memes instead of working.",
+  "Your tasks are cute… until they turn into monsters. Leave them too long and they’ll start gnawing at your peace, laughing at your weak defenses.",
+  "Smile! Your procrastination is making history… sadly, it’s the history of chaos, stress, and unfinished dreams, all starring you in the leading role.",
+  "Deadlines are vampires. They suck slowly but surely, draining your energy, feeding off your hesitation, leaving you pale and terrified of tomorrow.",
+  "Every ignored task is a curse cast on your free time. They linger, grow stronger, and one day strike back when you least expect it, with terrifying force.",
+  "The more you scroll, the more your tasks laugh. Every minute wasted is a giggle in the dark, echoing through your list of unfinished horrors.",
+  "Sleep tight… your unfinished work is plotting against you. While you dream, it gathers strength, preparing to ambush you at the break of dawn with guilt.",
+  "Productivity is optional. Panic is mandatory. Every delay adds weight to your soul, dragging you into a shadowy spiral of 'what could have been.'",
+  "Your to-do list whispers, ‘we are always watching.’ Ignore it, and it starts to scream, a chorus of little horrors reminding you that peace is temporary.",
+  "The longer you wait, the scarier it gets. Tasks mutate in your absence, growing claws, fangs, and subtle ways to make your life slightly more miserable every day.",
+  "Tasks are like zombies; they don’t die until you handle them. Delay too long, and you’ll be surrounded, chased, and cornered by a horde of tiny horrors.",
+];
+
   const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 
   // Initialize modal based on sessionStorage
