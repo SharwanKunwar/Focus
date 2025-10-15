@@ -91,7 +91,7 @@ export function Setbackground() {
                     </div>
                     <div
                         className="w-full h-[83px] text-end leading-tight text-[13px] flex justify-end items-end text-neutral-400 gap-5">
-                        <Button>Facebook</Button> <Button>Github</Button> <Button>Linkdin</Button> </div>
+                        <Button>Facebook</Button> <Button href="https://github.com/SharwanKunwar" target="_blank">Github</Button> <Button>Linkdin</Button> </div>
                 </div>
             </Card>
             <div className=" rounded-md w-6/12 h-[100px] flex justify-center items-start gap-3">
