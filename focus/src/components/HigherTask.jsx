@@ -21,7 +21,7 @@ function HigherTask() {
   const [noteOpen, setNoteOpen] = useState(false);
   const [card, setCard] = useState(null);
   const [datePickerDate, setDatePickerDate] = useState(moment().format("YYYY-MM-DD"));
-  
+  const [currentDate , setCurrentDate] = useState(moment().format("YYYY-MM-DD"));
 
   //Planner for access the data in different components and elements
   const { tasks, addTask, deleteTask, setTasks, updateTaskStatus, storeNote, viewNote} = usePlanner();
