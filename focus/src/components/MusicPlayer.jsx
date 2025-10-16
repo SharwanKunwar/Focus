@@ -1,43 +1,30 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useAnimation } from "motion/react";
 
-// Import your audio files
 
-
-
-import track7 from "../assets/music/Sitar-Tabla - Classical-Instrumental.mp3";
-
-import track9 from "../assets/music/Гио-Пика Буйно-голова 🌧.mp3";
-import track10 from "../assets/music/BOLD MUSIC - Gold-Digger-Taimorbeg .mp3";
-import track11 from "../assets/music/BOLD MUSIC - Aafno by vten .mp3";
-import track12 from "../assets/music/Die With A Smile.mp3";
-import track13 from "../assets/music/J-Cole All-My-Life .mp3";
-import track14 from "../assets/music/Koi Apna Hoga.mp3";
-import track15 from "../assets/music/Passenger___Let-Her-Go.mp3";
-import track16 from "../assets/music/Perfect - Ed_Sheeran.mp3";
-import track17 from "../assets/music/SOCIETY - TAIMOUR BAIG.mp3";
-import track18 from "../assets/music/Talha_Anjum Run it back.mp3";
-import track19 from "../assets/music/Talha_Anjum.mp3";
-import track20 from "../assets/music/Talhah-Yunus Therapy.mp3";
 
 const musicList = [
-  
-  
-  { name: "Focus : Sitar-Tabla - Classical-Instrumental.mp3", file: track7 },
-  
-  { name: "Focus : Гио-Пика Буйно-голова 🌧.mp3", file: track9 },
-  { name: "Focus : BOLD MUSIC - Gold-Digger-Taimorbeg.mp3", file: track10 },
-  { name: "Focus : BOLD MUSIC - Aafno by vten.mp3", file: track11 },
-  { name: "Focus : Die With A Smile.mp3", file: track12 },
-  { name: "Focus : J-Cole All-My-Life.mp3", file: track13 },
-  { name: "Focus : Koi Apna Hoga.mp3", file: track14 },
-  { name: "Focus : Passenger___Let-Her-Go.mp3", file: track15 },
-  { name: "Focus : Perfect - Ed_Sheeran", file: track16 },
-  { name: "Focus : SOCIETY - TAIMOUR BAIG.mp3", file: track17 },
-  { name: "Focus : Talha_Anjum Run it back.mp3", file: track18 },
-  { name: "Focus : Talha_Anjum.mp3", file: track19 },
-  { name: "Focus : Talhah-Yunus Therapy.mp3", file: track20 },
+  { name: "Focus : Study Track Music 1", file: "/music/music1.mp3" },
+  { name: "Focus : Study Track Music 2", file: "/music/music2.mp3" },
+  { name: "Focus : Study Track Music 3", file: "/music/music3.mp3" },
+  { name: "Focus : Study Track Music 4", file: "/music/music4.mp3" },
+  { name: "Focus : Study Track Music 5", file: "/music/music5.mp3" },
+  { name: "Focus : Study Track Music 6", file: "/music/music6.mp3" },
+  { name: "Focus : Study Track Music 7", file: "/music/music7.mp3" },
+  { name: "Focus : Study Track Music 8", file: "/music/music8.mp3" },
+  { name: "Focus : Study Track Music 9", file: "/music/music9.mp3" },
+  { name: "Focus : Study Track Music 10", file: "/music/music10.mp3" },
+  { name: "Focus : Study Track Music 11", file: "/music/music11.mp3" },
+  { name: "Focus : Study Track Music 12", file: "/music/music12.mp3" },
+  { name: "Focus : Study Track Music 13", file: "/music/music13.mp3" },
+  { name: "Focus : Study Track Music 14", file: "/music/music14.mp3" },
+  { name: "Focus : Study Track Music 15", file: "/music/music15.mp3" },
+  { name: "Focus : Study Track Music 16", file: "/music/music16.mp3" },
+  { name: "Focus : Study Track Music 17", file: "/music/music17.mp3" },
+  { name: "Focus : Study Track Music 18", file: "/music/music18.mp3" },
+  { name: "Focus : Study Track Music 19", file: "/music/music19.mp3" },
 ];
+
 
 function MusicPlayer({ onRefReady }) {
   const [currentTrack, setCurrentTrack] = useState(null);
