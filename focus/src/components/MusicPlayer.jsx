@@ -66,9 +66,21 @@ function MusicPlayer({ onRefReady }) {
   }, [isPlaying]);
 
   const playTrack = (index) => {
-    setCurrentTrack(index);
-    setTimeout(() => audioRef.current?.play(), 100);
-  };
+  setCurrentTrack(index);
+
+  // Wait until the audio element updates
+  setTimeout(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+      audioRef.current.oncanplay = () => {
+        audioRef.current.play().catch((err) => {
+          console.log("Playback prevented:", err);
+        });
+      };
+    }
+  }, 100);
+};
+
 
   const nextTrack = () => {
     if (currentTrack === null) return;
