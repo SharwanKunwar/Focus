@@ -4,7 +4,6 @@ import { motion, useAnimation } from "motion/react";
 // Import your audio files
 
 import track4 from "../assets/music/Relaxing Guitar for Stress Relief, work and study.mp3";
-import track5 from "../assets/music/Classical-Deep-SitarFlute-Ragas-for-Study, Work-Productivity.mp3";
 import track6 from "../assets/music/Relaxing-music-improve-your-Focus-relaxed.mp3";
 import track7 from "../assets/music/Sitar-Tabla - Classical-Instrumental.mp3";
 import track8 from "../assets/music/Study Session [lofi_hip_hop].mp3";
@@ -23,7 +22,6 @@ import track20 from "../assets/music/Talhah-Yunus Therapy.mp3";
 
 const musicList = [
   { name: "Focus : Relaxing Guitar for Stress Relief, work and study.mp3", file: track4, },
-  { name: "Focus : Classical-Deep-SitarFlute- Study, Work-Productivity.mp3", file: track5, }, 
   { name: "Focus : Relaxing-music-improve-your-Focus-relaxed.mp3", file: track6, },
   { name: "Focus : Sitar-Tabla - Classical-Instrumental.mp3", file: track7 },
   { name: "Focus : Study Session [lofi_hip_hop].mp3", file: track8 },
