@@ -4,9 +4,9 @@ import { motion, useAnimation } from "motion/react";
 // Import your audio files
 
 
-import track6 from "../assets/music/Relaxing-music-improve-your-Focus-relaxed.mp3";
+
 import track7 from "../assets/music/Sitar-Tabla - Classical-Instrumental.mp3";
-import track8 from "../assets/music/Study Session [lofi_hip_hop].mp3";
+
 import track9 from "../assets/music/Гио-Пика Буйно-голова 🌧.mp3";
 import track10 from "../assets/music/BOLD MUSIC - Gold-Digger-Taimorbeg .mp3";
 import track11 from "../assets/music/BOLD MUSIC - Aafno by vten .mp3";
@@ -22,9 +22,9 @@ import track20 from "../assets/music/Talhah-Yunus Therapy.mp3";
 
 const musicList = [
   
-  { name: "Focus : Relaxing-music-improve-your-Focus-relaxed.mp3", file: track6, },
+  
   { name: "Focus : Sitar-Tabla - Classical-Instrumental.mp3", file: track7 },
-  { name: "Focus : Study Session [lofi_hip_hop].mp3", file: track8 },
+  
   { name: "Focus : Гио-Пика Буйно-голова 🌧.mp3", file: track9 },
   { name: "Focus : BOLD MUSIC - Gold-Digger-Taimorbeg.mp3", file: track10 },
   { name: "Focus : BOLD MUSIC - Aafno by vten.mp3", file: track11 },
