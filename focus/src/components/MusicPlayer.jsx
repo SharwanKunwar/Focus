@@ -1,14 +1,47 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useAnimation } from "motion/react";
 
+// Import your audio files
+
+import track4 from "../assets/music/Relaxing Guitar for Stress Relief, work and study.mp3";
+import track5 from "../assets/music/Classical-Deep-SitarFlute-Ragas-for-Study, Work-Productivity.mp3";
+import track6 from "../assets/music/Relaxing-music-improve-your-Focus-relaxed.mp3";
+import track7 from "../assets/music/Sitar-Tabla - Classical-Instrumental.mp3";
+import track8 from "../assets/music/Study Session [lofi_hip_hop].mp3";
+import track9 from "../assets/music/Гио-Пика Буйно-голова 🌧.mp3";
+import track10 from "../assets/music/BOLD MUSIC - Gold-Digger-Taimorbeg .mp3";
+import track11 from "../assets/music/BOLD MUSIC - Aafno by vten .mp3";
+import track12 from "../assets/music/Die With A Smile.mp3";
+import track13 from "../assets/music/J-Cole All-My-Life .mp3";
+import track14 from "../assets/music/Koi Apna Hoga.mp3";
+import track15 from "../assets/music/Passenger___Let-Her-Go.mp3";
+import track16 from "../assets/music/Perfect - Ed_Sheeran.mp3";
+import track17 from "../assets/music/SOCIETY - TAIMOUR BAIG.mp3";
+import track18 from "../assets/music/Talha_Anjum Run it back.mp3";
+import track19 from "../assets/music/Talha_Anjum.mp3";
+import track20 from "../assets/music/Talhah-Yunus Therapy.mp3";
+
 const musicList = [
-  { name: "Focus Track 1", file: "/music/track1.mp3" },
-  { name: "Focus Track 2", file: "/music/track2.mp3" },
-  { name: "Focus Track 3", file: "/music/track3.mp3" },
-  { name: "Focus Track 4", file: "/music/track4.mp3" },
+  { name: "Focus : Relaxing Guitar for Stress Relief, work and study.mp3", file: track4, },
+  { name: "Focus : Classical-Deep-SitarFlute- Study, Work-Productivity.mp3", file: track5, }, 
+  { name: "Focus : Relaxing-music-improve-your-Focus-relaxed.mp3", file: track6, },
+  { name: "Focus : Sitar-Tabla - Classical-Instrumental.mp3", file: track7 },
+  { name: "Focus : Study Session [lofi_hip_hop].mp3", file: track8 },
+  { name: "Focus : Гио-Пика Буйно-голова 🌧.mp3", file: track9 },
+  { name: "Focus : BOLD MUSIC - Gold-Digger-Taimorbeg.mp3", file: track10 },
+  { name: "Focus : BOLD MUSIC - Aafno by vten.mp3", file: track11 },
+  { name: "Focus : Die With A Smile.mp3", file: track12 },
+  { name: "Focus : J-Cole All-My-Life.mp3", file: track13 },
+  { name: "Focus : Koi Apna Hoga.mp3", file: track14 },
+  { name: "Focus : Passenger___Let-Her-Go.mp3", file: track15 },
+  { name: "Focus : Perfect - Ed_Sheeran", file: track16 },
+  { name: "Focus : SOCIETY - TAIMOUR BAIG.mp3", file: track17 },
+  { name: "Focus : Talha_Anjum Run it back.mp3", file: track18 },
+  { name: "Focus : Talha_Anjum.mp3", file: track19 },
+  { name: "Focus : Talhah-Yunus Therapy.mp3", file: track20 },
 ];
 
-function MusicPlayer({onRefReady}) {
+function MusicPlayer({ onRefReady }) {
   const [currentTrack, setCurrentTrack] = useState(null);
   const audioRef = useRef(null);
   const [progress, setProgress] = useState(0);
@@ -17,10 +50,9 @@ function MusicPlayer({onRefReady}) {
 
   const controls = useAnimation();
 
-
-  useEffect(()=>{
-    if(onRefReady) onRefReady(audioRef);
-  },[onRefReady])
+  useEffect(() => {
+    if (onRefReady) onRefReady(audioRef);
+  }, [onRefReady]);
 
   // Update progress bar
   useEffect(() => {
@@ -94,9 +126,9 @@ function MusicPlayer({onRefReady}) {
                 setVolume(vol);
                 if (audioRef.current) audioRef.current.volume = vol;
               }}
-              className="flex-1 h-5 bg-gray-50 appearance-none rounded-full hover:bg-gradient-to-bl from-indigo-400 to-pink-500 via-orange-400 focus:outline-none focus:ring-2 focus:ring-white mastShadow border border-black/30"
+              className="flex-1 h-4 bg-gray-50 appearance-none rounded-full hover:bg-gradient-to-bl from-indigo-400 to-pink-500 via-orange-400 focus:outline-none focus:ring-2 focus:ring-white mastInShadow"
               style={{
-                accentColor: "#ffffff", // modern indigo color for thumb (works in Chrome, Edge, Safari)
+                accentColor: "#f5f56f", // modern indigo color for thumb (works in Chrome, Edge, Safari)
               }}
             />
 
@@ -108,10 +140,9 @@ function MusicPlayer({onRefReady}) {
             animate={controls}
             className="bg-white w-[300px] h-[300px] rounded-full flex justify-center items-center mastShadow"
           >
-            <div className="bg-gradient-to-bl from-indigo-400 to-green-500 via-pink-400 w-[280px] h-[280px] rounded-full mastShadow flex justify-center items-center">
-                <div className="bg-white w-[60px] h-[60px] rounded-full mastShadow"></div>
+            <div className="bg-gradient-to-bl from-indigo-400 to-green-500 via-pink-400 w-[280px] h-[280px] rounded-full mastShadow flex justify-center items-center mastShadow">
+              <div className="bg-white w-[60px] h-[60px] rounded-full mastShadow"></div>
             </div>
-                
           </motion.div>
         </div>
 
@@ -125,7 +156,7 @@ function MusicPlayer({onRefReady}) {
         {/* Audio Player */}
         {currentTrack !== null && (
           <>
-            <audio ref={audioRef} src={musicList[currentTrack].file} />
+            <audio ref={audioRef} src={musicList[currentTrack].file} loop />
 
             {/* Controls */}
             <div className="flex gap-4 mt-4">
@@ -193,8 +224,8 @@ function MusicPlayer({onRefReady}) {
 
       {/* Right Box: Playlist */}
       <div
-        className=" w-6/12 h-full p-5 overflow-y-auto"
-        style={{ maxHeight: "100%" }}
+        className=" w-6/12 h-full p-5 overflow-y-auto scroll-smooth transition-transform"
+        style={{ maxHeight: "100%", scrollBehavior: "smooth" }}
       >
         <h3 className="text-xl font-semibold mb-4">Playlist</h3>
         {musicList.map((track, index) => (
