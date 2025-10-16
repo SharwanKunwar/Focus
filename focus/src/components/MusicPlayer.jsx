@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useAnimation } from "motion/react";
 
-
-
 const musicList = [
   { name: "Focus : Study Track Music 1", file: "/music/music1.mp3" },
   { name: "Focus : Study Track Music 2", file: "/music/music2.mp3" },
@@ -25,9 +23,9 @@ const musicList = [
   { name: "Focus : Study Track Music 19", file: "/music/music19.mp3" },
 ];
 
-
 function MusicPlayer({ onRefReady }) {
   const [currentTrack, setCurrentTrack] = useState(null);
+  const [loading, setLoading] = useState(false);
   const audioRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(0.5); // default 50%
@@ -49,7 +47,7 @@ function MusicPlayer({ onRefReady }) {
     return () => clearInterval(interval);
   }, []);
 
-  // For control the rotation of the circle
+  // Control rotation of the circle
   useEffect(() => {
     if (isPlaying) {
       controls.start({
@@ -66,21 +64,22 @@ function MusicPlayer({ onRefReady }) {
   }, [isPlaying]);
 
   const playTrack = (index) => {
-  setCurrentTrack(index);
+    setCurrentTrack(index);
+    setLoading(true); // start loading
 
-  // Wait until the audio element updates
-  setTimeout(() => {
-    if (audioRef.current) {
-      audioRef.current.load();
-      audioRef.current.oncanplay = () => {
-        audioRef.current.play().catch((err) => {
-          console.log("Playback prevented:", err);
-        });
-      };
-    }
-  }, 100);
-};
-
+    // Wait until the audio element updates
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.load();
+        audioRef.current.oncanplay = () => {
+          setLoading(false); // loading done
+          audioRef.current.play().catch((err) => {
+            console.log("Playback prevented:", err);
+          });
+        };
+      }
+    }, 100);
+  };
 
   const nextTrack = () => {
     if (currentTrack === null) return;
@@ -94,7 +93,7 @@ function MusicPlayer({ onRefReady }) {
     playTrack(prevIndex);
   };
 
-  //helper function to formate second to mm:ss
+  // helper function to format seconds to mm:ss
   function formatTime(seconds) {
     if (!seconds || isNaN(seconds)) return "0:00";
     const minutes = Math.floor(seconds / 60);
@@ -103,15 +102,14 @@ function MusicPlayer({ onRefReady }) {
   }
 
   return (
-    <div className=" w-full h-full rounded-sm mastShadow flex gap-3">
+    <div className="w-full h-full rounded-sm mastShadow flex gap-3">
       {/* Left Box: Music Player */}
-      <div className=" w-6/12 h-full flex flex-col items-center justify-center p-6 rounded-lg bg-yellow-200 shadow-md">
+      <div className="w-6/12 h-full flex flex-col items-center justify-center p-6 rounded-lg bg-yellow-200 shadow-md">
         {/* Album Art */}
         <div className="w-[40vw] h-[50vh] bg-gradient-to-br from-indigo-400/30 via-pink-400/30 to-sky-400/30 backdrop-blur-2xl rounded-lg flex border border-white/30 items-center justify-center shadow-xl relative">
-          {/* volume slider button  */}
+          {/* volume slider button */}
           <div className="w-[40%] -right-20 h-[15%] absolute -rotate-90  bg-white/10 backdrop-blur-2xl mastShadow flex rounded-md  items-center mt-4">
             <span className="text-[4vh] rotate-90">🔈</span>
-
             <input
               type="range"
               min="0"
@@ -124,20 +122,17 @@ function MusicPlayer({ onRefReady }) {
                 if (audioRef.current) audioRef.current.volume = vol;
               }}
               className="flex-1 h-4 bg-gray-50 appearance-none rounded-full hover:bg-gradient-to-bl from-indigo-400 to-pink-500 via-orange-400 focus:outline-none focus:ring-2 focus:ring-white mastInShadow"
-              style={{
-                accentColor: "#f5f56f", // modern indigo color for thumb (works in Chrome, Edge, Safari)
-              }}
+              style={{ accentColor: "#f5f56f" }}
             />
-
             <span className="text-[4vh] rotate-90">🔊</span>
           </div>
 
-          {/* roateing circle music album  */}
+          {/* rotating circle music album */}
           <motion.div
             animate={controls}
             className="bg-white w-[300px] h-[300px] rounded-full flex justify-center items-center mastShadow"
           >
-            <div className="bg-gradient-to-bl from-indigo-400 to-green-500 via-pink-400 w-[280px] h-[280px] rounded-full mastShadow flex justify-center items-center mastShadow">
+            <div className="bg-gradient-to-bl from-indigo-400 to-green-500 via-pink-400 w-[280px] h-[280px] rounded-full mastShadow flex justify-center items-center">
               <div className="bg-white w-[60px] h-[60px] rounded-full mastShadow"></div>
             </div>
           </motion.div>
@@ -149,6 +144,8 @@ function MusicPlayer({ onRefReady }) {
             ? musicList[currentTrack].name
             : "Select a track"}
         </h2>
+
+        
 
         {/* Audio Player */}
         {currentTrack !== null && (
@@ -173,9 +170,7 @@ function MusicPlayer({ onRefReady }) {
                 }}
                 className="px-4 py-2 bg-white text-black rounded-sm mastShadow hover:bg-indigo-700 transition hover:text-white font-medium"
               >
-                {audioRef.current && !audioRef.current.paused
-                  ? "Pause"
-                  : "Play"}
+                {audioRef.current && !audioRef.current.paused ? "Pause" : "Play"}
               </button>
               <button
                 onClick={nextTrack}
@@ -186,11 +181,15 @@ function MusicPlayer({ onRefReady }) {
             </div>
 
             {/* Progress Bar */}
-            <div className="w-full mt-4 flex items-center gap-3 justify-center">
-              {/* Current time */}
+            {/* Loading Message */}
+            {loading ? (
+              <div className="flex items-center gap-2 text-sm text-gray-700 mt-6">
+                <span className="animate-spin border-2 border-gray-400 border-t-gray-700 rounded-full w-4 h-4"></span>
+                Loading track...
+              </div>
+            ):(
+              <div className="w-full mt-4 flex items-center gap-3 justify-center">
               <span className="text-sm">{formatTime(progress)}</span>
-
-              {/* Progress Slider */}
               <div className="w-[50%] h-[30px] bg-white mastShadow rounded-sm flex justify-center items-center">
                 <input
                   type="range"
@@ -202,26 +201,22 @@ function MusicPlayer({ onRefReady }) {
                     setProgress(e.target.value);
                   }}
                   className="w-full flex justify-center items-center bg-gray-300 h-[13px] appearance-none"
-                  style={{
-                    borderRadius: 0, // Remove track rounding
-                  }}
+                  style={{ borderRadius: 0 }}
                 />
               </div>
-
-              {/* Total duration */}
               <span className="text-sm">
-                {audioRef.current
-                  ? formatTime(audioRef.current.duration)
-                  : "0:00"}
+                {audioRef.current ? formatTime(audioRef.current.duration) : "0:00"}
               </span>
             </div>
+            )}
+            
           </>
         )}
       </div>
 
       {/* Right Box: Playlist */}
       <div
-        className=" w-6/12 h-full p-5 overflow-y-auto scroll-smooth transition-transform"
+        className="w-6/12 h-full p-5 overflow-y-auto scroll-smooth transition-transform"
         style={{ maxHeight: "100%", scrollBehavior: "smooth" }}
       >
         <h3 className="text-xl font-semibold mb-4">Playlist</h3>
