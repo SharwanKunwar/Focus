@@ -13,10 +13,6 @@ import MusicPlayer from "./MusicPlayer";
 
 function HigherTask() {
 
-
-    
-
-
   //states
   const [form] = Form.useForm();
   const [open, setOpen] = useState(false);
@@ -59,18 +55,27 @@ function HigherTask() {
     return `${hrs}:${mins}:${secs}:${millis}`;
   };
 
-  // Create new Task funciton to add task
-  const createTask = (value) => {
-    value.status = "Pending";
-    value.id = Date.now();
-    value.createdAt = new Date().toISOString();
-    value.taskCreatedAt = moment().format("DD MMM YYYY, h:mm a");
-    value.dateForSearch = moment().format("YYYY-MM-DD");
-    value.taskCompletedAt = formatTime(time);
-    setDatePickerDate(moment().format("YYYY-MM-DD"))
-    addTask(value);
-    handleClose();  // this is the function for close the model when the task creation field is done
+  // ✅ Create new Task function
+const createTask = (value) => {
+  const now = moment();
+
+  const newTask = {
+    ...value,
+    id: Date.now(),                                  // unique task id
+    priority : "High",
+    status: "Pending",                               // default status
+    taskYear: now.format("YYYY"),                    // 👈 added lowercase for consistency
+    createdAt: now.toISOString(),                    // raw timestamp
+    taskCreatedAt: now.format("DD MMM YYYY, h:mm a"), // readable format
+    dateForSearch: now.format("YYYY-MM-DD"),          // for filtering by day
+    taskCompletedAt: null,                            // not completed yet
   };
+
+  addTask(newTask);        // call your Zustand store addTask()
+  setDatePickerDate(now.format("YYYY-MM-DD")); // update your date picker
+  handleClose();           // close modal
+};
+
 
   // function which close the create task model
   const handleClose = () => {
@@ -160,7 +165,7 @@ function HigherTask() {
             title={
               tasks.length === 0
                 ? "Nothing to delete!"
-                : "Do you want to delete all tasks?"
+                : "Do you want to delete all your existing tasks?"
             }
             onConfirm={allDelete}
           >
@@ -238,7 +243,7 @@ function HigherTask() {
             >
               <Badge.Ribbon
                 text="Higher"
-                className="font-medium bg-gradient-to-br from-pink-400 to-purple-500 via-pink-400 mastShadow"
+                className="font-medium bg-gradient-to-bl from-purple-400 to-pink-400 via-red-400 mastShadow"
                 key={index}
               >
                 <Card
@@ -290,12 +295,7 @@ function HigherTask() {
                           Note
                         </Tag>
                       )}
-                      <Tag
-                        onClick={() => deleteTask(item.id)}
-                        className="!bg-rose-500 !border-rose-500 !text-white mastShadow"
-                      >
-                        Delete
-                      </Tag>
+                      <Tag onClick={() => deleteTask(item.id)} className="!bg-rose-500 !border-rose-500 !text-white mastShadow" >Delete</Tag>
                     </div>
                     <div>
                       <label className="text-neutral-400 text-[11px]">

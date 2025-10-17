@@ -1,13 +1,17 @@
-import { Badge, Button, Card, DatePicker, Empty, Form, Input, Modal, Popconfirm, Tag} from "antd";
-import { useState, useEffect } from "react";
+import { Badge, Button, Card, DatePicker, Empty, Form, Input, Modal, Popconfirm, Tag,} from "antd";
+import { useState, useEffect, useRef } from "react";
 import "@ant-design/v5-patch-for-react-19";
 import { useLowerPlanner } from "../Store/useLowerPlanner";
+import {useAuthPlanner} from '../Store/useAuthPlanner'
 import moment from "moment";
 import Watch from "./Watch";
 import { motion } from "motion/react";
+import MusicPlayer from "./MusicPlayer";
 
 
-function LowerTask() {
+
+
+function MediumTask() {
 
   //states
   const [form] = Form.useForm();
@@ -19,11 +23,15 @@ function LowerTask() {
   const [note, setNote] = useState("");
   const [noteOpen, setNoteOpen] = useState(false);
   const [card, setCard] = useState(null);
-  const [datePickerDate, setDatePickerDate] = useState(null);
-  const [currentDate , setCurrentDate] = useState(moment().format("YYYY-MM-DD"));
+  const [datePickerDate, setDatePickerDate] = useState(moment().format("YYYY-MM-DD"));
+  const [currentDate , setCurrentDate] = useState(moment().format("YYYY-MM-DD"));           // check if needed 
+  const [openMusicModel, setOpenMusicModel] = useState(false);
+  const audioRef = useRef(null);
+
 
   //Planner for access the data in different components and elements
   const { tasks, addTask, deleteTask, setTasks, updateTaskStatus, storeNote, viewNote} = useLowerPlanner();
+  const {auth} = useAuthPlanner();
 
   // Timer effect to set the count or timestamp to calcuatle the duration of the task
   useEffect(() => {
@@ -47,18 +55,27 @@ function LowerTask() {
     return `${hrs}:${mins}:${secs}:${millis}`;
   };
 
-  // Create new Task funciton to add task
-  const createTask = (value) => {
-    value.status = "Pending";
-    value.id = Date.now();
-    value.createdAt = new Date().toISOString();
-    value.taskCreatedAt = moment().format("DD MMM YYYY, h:mm a");
-    value.dateForSearch = moment().format("YYYY-MM-DD");
-    value.taskCompletedAt = formatTime(time);
-    addTask(value);
-    setDatePickerDate(moment().format("YYYY-MM-DD"))
-    handleClose();  // this is the function for close the model when the task creation field is done
+  // ✅ Create new Task function
+const createTask = (value) => {
+  const now = moment();
+
+  const newTask = {
+    ...value,
+    id: Date.now(),                                  // unique task id
+    priority : "Low",
+    status: "Pending",                               // default status
+    taskYear: now.format("YYYY"),                    // 👈 added lowercase for consistency
+    createdAt: now.toISOString(),                    // raw timestamp
+    taskCreatedAt: now.format("DD MMM YYYY, h:mm a"), // readable format
+    dateForSearch: now.format("YYYY-MM-DD"),          // for filtering by day
+    taskCompletedAt: null,                            // not completed yet
   };
+
+  addTask(newTask);        // call your Zustand store addTask()
+  setDatePickerDate(now.format("YYYY-MM-DD")); // update your date picker
+  handleClose();           // close modal
+};
+
 
   // function which close the create task model
   const handleClose = () => {
@@ -95,14 +112,21 @@ function LowerTask() {
   }, [card]);
 
   //Function getting the current date when firstly loaded/rendered for comparing the date comming from the task
-      useEffect(()=>{
-        const interval = setInterval(() => {
-          setCurrentDate(moment().format("YYYY-MM-DD"))
-        }, 1000);
-        return ()=>{
-          clearInterval(interval)
-        }
-      },[])
+    useEffect(()=>{
+      const interval = setInterval(() => {
+        setCurrentDate(moment().format("YYYY-MM-DD"))
+      }, 1000);
+      return ()=>{
+        clearInterval(interval)
+      }
+    },[])
+
+
+    // function for handlying study music model cancel button
+    const handleMusicModelCencle = () => {
+      setOpenMusicModel(false);
+    }
+  
 
 
   return (
@@ -117,17 +141,16 @@ function LowerTask() {
             <h1 className="text-[18px] font-medium text-neutral-600 w-6/20 h-[80%] ml-5 rounded-md flex justify-center items-center mastShadow">
               Lower Priority Tasks 
             </h1>
-            
           </div>
 
           {/* Date picker for display the tasks or data according to the date which it is added */}
           <DatePicker
-            size="large"
             onChange={(date, dateString)=>setDatePickerDate(dateString)}
             placeholder="Select Date"
+            size="large"
             className="!bg-gradient-to-br !from-indigo-400 !to-cyan-400 !via-orange-300/50 !text-white !font-medium mastShadow"
           />
-
+          
           {/* //Button for Add new task */}
           <Button
             size="large"
@@ -142,7 +165,7 @@ function LowerTask() {
             title={
               tasks.length === 0
                 ? "Nothing to delete!"
-                : "Do you want to delete all tasks?"
+                : "Do you want to delete all your existing tasks?"
             }
             onConfirm={allDelete}
           >
@@ -157,14 +180,16 @@ function LowerTask() {
 
         {/* ------------------------------------------------------- content box where all task cards are appear --------------------------------------------------------------------------- */}
 
-
+        {/* Empty State this shows empty msg when the data or task is not added yet */}
+        
 
         {/* Task card design work here ----------------------------------------------------------------------------------------------------------- Tasks Grid */}
         <div className="grid grid-cols-3 gap-7 p-5 overflow-y-auto">
-        {/* Used map and filter for dynamic data handlying  -------------------------------------------------------------------------------------------*/}
+          {/* Used map and filter for dynamic data handlying  -------------------------------------------------------------------------------------------*/}
           {tasks.filter(item => item.dateForSearch === datePickerDate).length === 0 && (
             <div className="w-[75vw] h-[70vh] flex justify-center items-center">
               <div className="bg-white py-15 px-40 rounded-lg mastShadow">
+
                 {tasks.length === 0 ? (
                   <div className="w-full h-full flex flex-col gap-15 justify-center items-center">
                     <Empty
@@ -178,35 +203,39 @@ function LowerTask() {
                       <i className="ri-add-circle-line mr-0"></i>Create your first Task
                     </Button>
                   </div>
-                ): datePickerDate === null || datePickerDate === undefined || datePickerDate === "" ?
-                                  (
-                                    <h1 className="text-3xl font-medium text-center">{setDatePickerDate(moment().format("YYYY-MM-DD"))} </h1>  //if ture
-                                  )
-                                    : datePickerDate ===  currentDate?  (  // if false
-                                        <div className="w-full h-full flex flex-col gap-15 justify-center items-center">
-                                      <Empty
-                                        description="Task is not created yet!"
-                                        className="scale-150 !text-[12px]"
-                                      />
-                                      <Button
-                                        onClick={() => setOpen(true)}
-                                        className="mastShadow !bg-gradient-to-br from-indigo-400 to-cyan-400 via-orange-300/50 !text-white !font-medium !px-5 !rounded-md"
-                                      >
-                                        <i className="ri-add-circle-line mr-0"></i>Create your first Task
-                                      </Button>
-                                    </div>
-                                      ) : (<h>"Looks like you didn’t add any tasks today."</h>)//if false
-                                    }
+                )
+                : datePickerDate === null || datePickerDate === undefined || datePickerDate === "" ?
+                  (
+                    <h1 className="text-3xl font-medium text-center">{setDatePickerDate(moment().format("YYYY-MM-DD"))} </h1>  //if ture
+                  )
+                    : datePickerDate ===  currentDate?  (  // if false
+                      <div className="w-full h-full flex flex-col gap-15 justify-center items-center">
+                    <Empty
+                      description="Task is not created yet!"
+                      className="scale-150 !text-[12px]"
+                    />
+                    <Button
+                      onClick={() => setOpen(true)}
+                      className="mastShadow !bg-gradient-to-br from-indigo-400 to-cyan-400 via-orange-300/50 !text-white !font-medium !px-5 !rounded-md"
+                    >
+                      <i className="ri-add-circle-line mr-0"></i>Create your first Task
+                    </Button>
+                  </div>
+                    ) : (<h>"Looks like you didn’t add any tasks today."</h>) //if false
+                  }
+                
 
               </div>
             </div>
           )}
 
 
+
           {tasks
             .filter((item) => item.dateForSearch === datePickerDate) // filter tasks by date
             .map((item, index) => (
               <motion.div
+              key={index}
               initial={{ scale: 0, opacity: 0, filter: "blure(10xp)" }}
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
@@ -214,7 +243,7 @@ function LowerTask() {
             >
               <Badge.Ribbon
                 text="Lower"
-                className="font-medium bg-gradient-to-br from-sky-500 to-purple-500 via-purple-400 mastShadow"
+                className="font-medium bg-gradient-to-bl from-cyan-400 to-cyan-400 via-yellow-400 mastShadow"
                 key={index}
               >
                 <Card
@@ -266,12 +295,7 @@ function LowerTask() {
                           Note
                         </Tag>
                       )}
-                      <Tag
-                        onClick={() => deleteTask(item.id)}
-                        className="!bg-rose-500 !border-rose-500 !text-white mastShadow"
-                      >
-                        Delete
-                      </Tag>
+                      <Tag onClick={() => deleteTask(item.id)} className="!bg-rose-500 !border-rose-500 !text-white mastShadow" >Delete</Tag>
                     </div>
                     <div>
                       <label className="text-neutral-400 text-[11px]">
@@ -310,7 +334,8 @@ function LowerTask() {
 
               </div>
             </motion.div>
-            ))}  
+            ))}
+
            {/* map is finished here ----------------------------------------------------------------------------------------------- */}
         </div>
 
@@ -389,17 +414,23 @@ function LowerTask() {
 
                     {/* Timestamp which track the task completed time  */}
                     <div className="mt-1  px-3 flex flex-col gap-3 ">
-                      <Card className="flex justify-center items-center mastShadow !bg-gradient-to-br from-indigo-400 to-pink-400 via-orange-400 !text-white !w-[380px] !h-[220px]">
+                      <Card className="flex justify-center items-center mastShadow !bg-gradient-to-br from-indigo-400 to-pink-400 via-orange-400 !text-white !w-[25vw] !h-[23vh]">
                         <div className="text-6xl flex justify-center items-center">
                           {formatTime(time)}
                         </div>
                       </Card>
+
+                      {/* timer stope resume button which manuplate timer */}
                       <Button
                         className="!px-10 !py-5 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !font-medium !text-[16px]"
                         onClick={() => setIsRunning((prev) => !prev)}
                       >
                         {isRunning ? "Stop Timer" : "Resume Timer"}
                       </Button>
+
+                      {/* Study with music button  ---------------- working here right now*/}
+                      <Button onClick={()=>setOpenMusicModel(true)} className="!px-10 !py-5 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-slate-400 !text-white !font-medium !text-[16px]">Play Study Music</Button>
+
                     </div>
 
                   </div>
@@ -411,10 +442,10 @@ function LowerTask() {
                   initial={{ filter: "blur(5px)" }}
                   whileInView={{ filter: "blur(0px)" }}
                   transition={{ delay: 0.2, duration: 0.3 }}
-                  className="pt-3 mt-5 w-full h-[290px] pr-2 bg-gradient-to-br from-indigo-400 to-green-500 via-pink-400 rounded-md p-2"
+                  className="pt-3 mt-2 w-[46vw] h-[40vh] pr-2 bg-gradient-to-br from-indigo-400 to-green-500 via-pink-400 rounded-md p-2"
                 >
                   <h1 className="text-2xl text-white font-medium mb-3 pl-2">
-                    Write anything{" "}
+                    Write anything here <span className="text-black font-bold"> " </span>{auth.username}<span className="text-black font-bold"> " </span>
                   </h1>
                   <Form.Item rules={[{ required: true }]}>
                     <Input.TextArea
@@ -434,7 +465,7 @@ function LowerTask() {
                   initial={{ filter: "blur(5px)" }}
                   whileInView={{ filter: "blur(0px)" }}
                   transition={{ delay: 0.1, duration: 0.3 }}
-                  className="w-full h-6/12 pr-8 mt-5"
+                  className="w-full h-6/12 pr-8 mt-[1.5vh]"
                 >
                   <Card hoverable className="mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !font-medium !text-[16px]" >
                     <h1 className="text-2xl capitalize">{activeTask.title}</h1>
@@ -450,7 +481,8 @@ function LowerTask() {
                         <span className="font-bold">{activeTask.status}</span>
                       </label>
                       <Button
-                        className="!px-20 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !backdrop-blur-2xl !font-medium !text-[16px]"
+                      size="large"
+                        className="!px-15 mastShadow !bg-gradient-to-br from-pink-400 to-orange-400 via-indigo-400 !text-white !backdrop-blur-2xl !font-medium !text-[16px]"
                         onClick={() => {
                           const completedAt = time; // the tracked time when task completes
                           updateTaskStatus( activeTask.id, "Completed", completedAt ); // pass the time
@@ -460,6 +492,9 @@ function LowerTask() {
                           setStart(false);
                           setNote("");
                           setTime(0);
+                          if(audioRef.current){
+                            audioRef.current.pause();
+                          }
                         }}
                       > Work Done </Button>
                     </div>
@@ -487,17 +522,18 @@ function LowerTask() {
           closable={true}
         >
           <div className="w-[95%] h-full p-3">
-            <h1 className="text-2xl font-medium mb-1">
-              Note Description Of{" "}
+            <h1 className="text-2xl font-medium mb-1 text-slate-700">
+              Note Description Of {" "}
               <span className="text-red-500 font-bold">"</span>
-              {card?.title}
+              <span className="text-black text-[18px]">{card?.title}</span>
               <span className="text-red-500 font-bold">"</span>
+              {" "} Writen By <span className="text-red-500 font-bold">"</span><span className="text-black text-[18px]">{auth.username}</span><span className="text-red-500 font-bold">"</span>
             </h1>
             <h6 className="text-neutral-400 border-b border-black/30 pb-2 mb-3">
-              {card?.taskFinishedAt}
+              At: {card?.taskFinishedAt}
             </h6>
             <div className="hide-scrollbar overflow-y-auto max-h-[500px]">
-              <p className=" text-[18px] font-medium text-neutral-400">
+              <p className=" text-[18px] text-neutral-600 whitespace-pre-wrap">
                 {card
                   ? viewNote(card.id) || "No description added yet."
                   : "No task selected."}
@@ -505,9 +541,32 @@ function LowerTask() {
             </div>
           </div>
         </Modal>
+
+        {/* Model for study music  ----------------------------------- */}
+        <Modal 
+        open={openMusicModel} 
+        footer={null} 
+        maskClosable={false} 
+        onCancel={handleMusicModelCencle}
+        width="100%"
+          style={{ top: 80, padding: 10 }}
+          bodyStyle={{ padding: 25, height: "80vh" }}
+          closable={true}
+        >
+          {/* top div  */}
+          <div className="bg-gray-50 h-full rounded-sm mastShadow flex gap-3">
+            <MusicPlayer onRefReady={(ref) => (audioRef.current = ref.current)} />
+          </div>
+        </Modal>
+
+
+
+
+
+
       </div>
     </>
   );
 }
 
-export default LowerTask;
+export default MediumTask;
