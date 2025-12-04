@@ -96,7 +96,7 @@ Whether you’re a student, a learner, or a professional, Focus Planner keeps yo
 **Sharwan Jung Kunwar**  
 📍 Developer & Creator of Focus Planner  
 🛠️ Passionate about building practical, aesthetic, and smart web apps.  
-🌐 [GitHub Profile](https://github.com/SharwanKunwar) *(add your link here)*  
+
 
 ---
 
